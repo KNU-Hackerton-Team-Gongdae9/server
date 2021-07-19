@@ -1,6 +1,6 @@
 package com.knu.community.email.util;
 
-import com.knu.cse.email.service.MemberDetailsService;
+import com.knu.community.email.service.MemberDetailsService;
 import io.jsonwebtoken.ExpiredJwtException;
 import java.io.IOException;
 import javax.servlet.FilterChain;

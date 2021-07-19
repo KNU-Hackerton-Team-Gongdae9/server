@@ -2,6 +2,7 @@ package com.knu.community.error;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
@@ -91,6 +92,16 @@ public class GlobalExceptionHandler {
     }
 
     /**
+     * 비즈니스 로직 수행 도중, 객체를 찾을 수 없는 상태일 때 발생. 이 때 404 status code와 함께 반환한다.
+     */
+    @ExceptionHandler(NotFoundException.class)
+    protected ResponseEntity handleNotFoundException(Exception e) {
+        log.error("NotFoundException", e);
+        final ErrorResponse response = ErrorResponse.of(ErrorCode.NOT_FOUND, e.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
+
+    /**
      * 여기서 작성하지 않은 다른 모든 예외에 대해 처리한다. 이 때 500 status code와 함께 반환한다.
      */
     @ExceptionHandler(Exception.class)
@@ -99,4 +110,6 @@ public class GlobalExceptionHandler {
         final ErrorResponse response = ErrorResponse.of(ErrorCode.EXCEPTION, e.getMessage());
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+
 }

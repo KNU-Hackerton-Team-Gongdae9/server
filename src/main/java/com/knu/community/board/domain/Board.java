@@ -2,7 +2,9 @@ package com.knu.community.board.domain;
 
 
 import com.knu.community.base.BaseTimeEntity;
+import com.knu.community.board.dto.BoardForm;
 import com.knu.community.comment.domain.Comment;
+import java.time.LocalDateTime;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -36,9 +38,22 @@ public class Board extends BaseTimeEntity {
 
     private String author;
 
+    private LocalDateTime dateTime;
+
     @OneToMany(mappedBy="board")
     private List<WriteBoard> writerList;
 
     @OneToMany(mappedBy="board")
     private List<Comment> commentList;
+
+
+    public static Board createBoard(BoardForm boardForm){
+        return Board.builder()
+            .category(boardForm.getCategory())
+            .title(boardForm.getTitle())
+            .content(boardForm.getContent())
+            .author(boardForm.getAuthor())
+            .dateTime(LocalDateTime.now())
+            .build();
+    }
 }

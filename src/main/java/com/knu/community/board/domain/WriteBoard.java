@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import lombok.Builder;
 import lombok.Getter;
 
 @Entity
@@ -29,6 +30,13 @@ public class WriteBoard extends BaseTimeEntity {
     @ManyToOne
     @JoinColumn(name="member_id")
     private Member member;
+
+    public WriteBoard(){}
+
+    public WriteBoard (Member member,Board board){
+        setMember(member);
+        setBoard(board);
+    }
 
 
     public void setMember(Member member){

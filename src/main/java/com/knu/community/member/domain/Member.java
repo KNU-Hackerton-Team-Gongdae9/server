@@ -5,19 +5,15 @@ import com.knu.community.base.BaseTimeEntity;
 import com.knu.community.board.domain.WriteBoard;
 import com.knu.community.comment.domain.WriteComment;
 import java.util.List;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 
 import com.knu.community.message.domain.Message;
+import com.knu.community.profile.domain.MyProfile;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.context.annotation.Profile;
 
 @Entity
 @Builder
@@ -58,6 +54,9 @@ public class Member extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "receiver")
     private List<Message> receivedMessageList;
+
+    @OneToOne(mappedBy = "member")
+    private MyProfile profile;
 
     public void changeRole(MemberRole memberRole){
         this.role = memberRole;

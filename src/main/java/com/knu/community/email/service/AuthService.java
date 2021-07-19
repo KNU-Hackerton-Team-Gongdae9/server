@@ -44,7 +44,7 @@ public class AuthService {
             .studentId(signUpForm.getStudentId())
             .major(signUpForm.getMajor())
             .role(MemberRole.ROLE_NOT_PERMITTED)
-            .grade(SignUpForm.getGrade())
+            .grade(signUpForm.getGrade())
             .build();
 
         return memberRepository.save(member);

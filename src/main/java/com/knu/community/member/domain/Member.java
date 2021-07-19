@@ -12,6 +12,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+
+import com.knu.community.message.domain.Message;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -50,9 +52,14 @@ public class Member extends BaseTimeEntity {
     @OneToMany(mappedBy="member")
     private List<WriteComment> commentList;
 
+    // message
+    @OneToMany(mappedBy = "sender")
+    private List<Message> sentMessageList;
+
+    @OneToMany(mappedBy = "receiver")
+    private List<Message> receivedMessageList;
+
     public void changeRole(MemberRole memberRole){
         this.role = memberRole;
     }
-
-
 }

@@ -4,6 +4,7 @@ package com.knu.community.comment.domain;
 import com.knu.community.base.BaseTimeEntity;
 import com.knu.community.board.domain.Board;
 import com.knu.community.domain.Reply;
+import java.time.LocalDateTime;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -30,6 +31,8 @@ public class Comment extends BaseTimeEntity {
     private String content;
 
     private String author;
+
+    private LocalDateTime dateTime;
 
     @ManyToOne
     @JoinColumn(name="board_id")

@@ -13,6 +13,8 @@ public class SignInForm {
 
     private String password;
 
+    public SignInForm(){}
+
     public SignInForm(
         @Email @NotBlank String email, String password) {
         this.email = email;

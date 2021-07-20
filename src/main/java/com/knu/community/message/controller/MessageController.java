@@ -1,13 +1,15 @@
 package com.knu.community.message.controller;
 
-import com.knu.community.Response;
+import com.knu.community.message.domain.Message;
 import com.knu.community.message.dto.MessageForm;
 import com.knu.community.message.service.SearchMessageService;
 import com.knu.community.message.service.SendMessageService;
+import com.knu.community.util.ApiUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -18,18 +20,18 @@ public class MessageController {
     private final SendMessageService sendMessageService;
 
     @GetMapping("/received/user/{user_id}")
-    public Response getReceived(@PathVariable("user_id") Long userId){
-        return new Response("success", "쪽지!", searchMessageService.searchReceived(userId));
+    public ApiUtils.ApiResult<List<Message>> getReceived(@PathVariable("user_id") Long userId){
+        return ApiUtils.success(searchMessageService.searchReceived(userId));
     }
 
     @GetMapping("/sent/user/{user_id}")
-    public Response getSent(@PathVariable("user_id") Long userId){
-        return new Response("success", "쪽지!", searchMessageService.searchSent(userId));
+    public ApiUtils.ApiResult<List<Message>> getSent(@PathVariable("user_id") Long userId){
+        return ApiUtils.success(searchMessageService.searchSent(userId));
     }
 
     @PostMapping("/from/{sender_id}/to/{receiver_id}")
-    public Response send(@Valid @RequestBody MessageForm messageForm, @PathVariable("sender_id") Long senderId, @PathVariable("receiver_id") Long receiverId){
+    public ApiUtils.ApiResult<String> send(@Valid @RequestBody MessageForm messageForm, @PathVariable("sender_id") Long senderId, @PathVariable("receiver_id") Long receiverId){
         sendMessageService.send(senderId, receiverId, messageForm);
-        return new Response("success", "쪽지 전송 완료!", null);
+        return ApiUtils.success("성공");
     }
 }

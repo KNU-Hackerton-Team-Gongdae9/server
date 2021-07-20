@@ -1,10 +1,10 @@
 package com.knu.community.reply.controller;
 
-import com.knu.community.Response;
 import com.knu.community.reply.dto.ReplyForm;
 import com.knu.community.reply.service.DeleteReplyService;
 import com.knu.community.reply.service.EditReplyService;
 import com.knu.community.reply.service.WriteReplyService;
+import com.knu.community.util.ApiUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,20 +19,20 @@ public class ReplyController {
     private final DeleteReplyService deleteReplyService;
 
     @PostMapping("/comment/{comment_id}")
-    public Response writeReply(@Valid @RequestBody ReplyForm replyForm, @PathVariable("comment_id") Long commentId){
+    public ApiUtils.ApiResult<String> writeReply(@Valid @RequestBody ReplyForm replyForm, @PathVariable("comment_id") Long commentId){
         writeReplyService.write(commentId, replyForm);
-        return new Response("success", "답글이 달렸습니다.", null);
+        return ApiUtils.success("성공했습니다.");
     }
 
     @PutMapping("/{reply_id}")
-    public Response editReply(@Valid @RequestBody ReplyForm replyForm, @PathVariable("reply_id") Long replyId){
+    public ApiUtils.ApiResult<String> editReply(@Valid @RequestBody ReplyForm replyForm, @PathVariable("reply_id") Long replyId){
         editReplyService.edit(replyId, replyForm);
-        return new Response("success", "답글이 수정 되었습니다.", null);
+        return ApiUtils.success("성공했습니다.");
     }
 
     @DeleteMapping("/{reply_id}")
-    public Response deleteReply(@PathVariable("reply_id") Long replyId){
+    public ApiUtils.ApiResult<String> deleteReply(@PathVariable("reply_id") Long replyId){
         deleteReplyService.delete(replyId);
-        return new Response("success", "답글이 삭제 되었습니다.", null);
+        return ApiUtils.success("성공했습니다.");
     }
 }

@@ -1,6 +1,7 @@
 package com.knu.community.board.service;
 
 import com.knu.community.board.domain.Board;
+import com.knu.community.board.domain.Category;
 import com.knu.community.board.domain.WriteBoard;
 import com.knu.community.board.dto.BoardForm;
 import com.knu.community.board.repository.BoardRepository;
@@ -8,6 +9,8 @@ import com.knu.community.board.repository.WriteBoardRepository;
 import com.knu.community.error.NotFoundException;
 import com.knu.community.member.domain.Member;
 import com.knu.community.member.repository.MemberRepository;
+import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,6 +40,24 @@ public class BoardService {
     public Board findById(Long boardId){
         return boardRepository.findById(boardId).orElseThrow(
             ()-> new NotFoundException(("Board를 찾을 수 없습니다")));
+    }
+
+    @Transactional(readOnly = true)
+    public List<Board> findByTitle(String title){
+        return boardRepository.findByTitle(title).orElseThrow(
+            ()->new NotFoundException(("Title에 해당하는 Board를 찾을 수 없습니다")));
+    }
+
+    @Transactional(readOnly = true)
+    public List<Board> findByAuthor(String author){
+        return boardRepository.findByAuthor(author).orElseThrow(
+            ()->new NotFoundException(("Author에 해당하는 Board를 찾을 수 없습니다")));
+    }
+
+    @Transactional(readOnly = true)
+    public List<Board> findByCategory(Category category){
+        return boardRepository.findByCategory(category).orElseThrow(
+            ()->new NotFoundException(("Category에 해당하는 Board를 찾을 수 없습니다")));
     }
 
     @Transactional

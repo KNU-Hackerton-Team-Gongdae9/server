@@ -1,8 +1,9 @@
-package com.knu.community.domain;
+package com.knu.community.reply.domain;
 
 
 import com.knu.community.base.BaseTimeEntity;
 import com.knu.community.comment.domain.Comment;
+import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -28,6 +29,8 @@ public class Reply extends BaseTimeEntity {
     private String content;
 
     private String author;
+
+    private LocalDateTime dateTime;
 
     @ManyToOne
     @JoinColumn(name="comment_id")

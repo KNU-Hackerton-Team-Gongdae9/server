@@ -28,7 +28,7 @@ public class CommentService {
         Member member = memberRepository.findById(userId).orElseThrow(()->
             new NotFoundException("Member가 존재하지 않습니다."));
         Board board = boardRepository.findById(boardId).orElseThrow(()->
-            new NotFoundException("Comment를 달수있는 Board가 존재하지 않습니다."));
+            new NotFoundException("Comment를 달 수 있는 Board가 존재하지 않습니다."));
         Comment comment = createComment(board,commentForm);
 
         WriteComment writeComment=new WriteComment(member,comment);

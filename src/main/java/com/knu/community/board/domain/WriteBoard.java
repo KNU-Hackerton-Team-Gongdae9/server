@@ -40,7 +40,7 @@ public class WriteBoard extends BaseTimeEntity {
 
 
     public void setMember(Member member){
-        if(member.getId()!=null){
+        if(this.member!=null){
             this.member.getBoardList().remove(this);
         }
         this.member=member;
@@ -48,7 +48,7 @@ public class WriteBoard extends BaseTimeEntity {
     }
 
     public void setBoard(Board board){
-        if(board.getId()!=null){
+        if(this.board!=null){
             this.board.getWriterList().remove(this);
         }
         this.board=board;

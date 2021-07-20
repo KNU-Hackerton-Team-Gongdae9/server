@@ -102,7 +102,7 @@ public class AuthService {
         return memberRepository.findByEmail(email);
     }
 
-    public String getEmailFromJWT(HttpServletRequest req, HttpServletResponse res){
+    public String getEmailFromJWT(HttpServletRequest req){
         for (Cookie cookie : req.getCookies()) {
             System.out.println(cookie.getName());
             System.out.println(cookie.getValue());

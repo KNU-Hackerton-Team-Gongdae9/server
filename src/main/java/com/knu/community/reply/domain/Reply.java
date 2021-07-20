@@ -1,4 +1,4 @@
-package com.knu.community.domain;
+package com.knu.community.reply.domain;
 
 
 import com.knu.community.base.BaseTimeEntity;

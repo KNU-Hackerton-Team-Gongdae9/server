@@ -3,7 +3,7 @@ package com.knu.community.comment.domain;
 
 import com.knu.community.base.BaseTimeEntity;
 import com.knu.community.board.domain.Board;
-import com.knu.community.domain.Reply;
+import com.knu.community.reply.domain.Reply;
 import java.time.LocalDateTime;
 import java.util.List;
 import javax.persistence.Column;

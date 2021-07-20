@@ -60,4 +60,6 @@ public class Member extends BaseTimeEntity {
     public void changeRole(MemberRole memberRole){
         this.role = memberRole;
     }
+
+    public void setProfile(Profile profile) { this.profile = profile; }
 }

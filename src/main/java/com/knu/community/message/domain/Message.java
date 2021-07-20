@@ -32,11 +32,29 @@ public class Message extends BaseTimeEntity {
     @JoinColumn
     private Member receiver;
 
+    public void setSender(Member sender) {
+        if(this.sender!=null){
+            this.sender.getSentMessageList().remove(this);
+        }
+        this.sender = sender;
+        sender.getSentMessageList().add(this);
+    }
+
+    public void setReceiver(Member receiver) {
+        if(this.receiver != null){
+            this.receiver.getReceivedMessageList().remove(this);
+        }
+        this.receiver = receiver;
+        receiver.getReceivedMessageList().add(this);
+    }
+
     public static Message createInstance(Member sender, Member receiver, String content){
-        return Message.builder()
+        Message message =  Message.builder()
                 .content(content)
                 .read(false)
-                .sender(sender)
-                .receiver(receiver).build();
+                .build();
+        message.setSender(sender);
+        message.setReceiver(receiver);
+        return message;
     }
 }

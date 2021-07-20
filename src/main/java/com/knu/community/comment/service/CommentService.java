@@ -45,6 +45,13 @@ public class CommentService {
     }
 
     @Transactional
+    public void updateComment(Long commentId,CommentForm commentForm){
+        Comment comment=commentRepository.findById(commentId).orElseThrow(NotFoundException::new);
+        comment.edit(commentForm);
+    }
+
+
+    @Transactional
     public void deleteComment(Long commentId){boardRepository.deleteById(commentId);}
 
     @Transactional

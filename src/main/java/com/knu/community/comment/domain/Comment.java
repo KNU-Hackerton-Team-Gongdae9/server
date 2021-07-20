@@ -53,6 +53,16 @@ public class Comment extends BaseTimeEntity {
         setBoard(board);
     }
 
+    public void edit(CommentForm commentForm){
+        content = changedInfo(content, commentForm.getContent());
+        author = changedInfo(author, commentForm.getAuthor());
+        dateTime = LocalDateTime.now();
+    }
+
+    private String changedInfo(String original, String changed){
+        return (changed == null || changed.equals("")) ? original : changed;
+    }
+
     public void setBoard(Board board){
         if(board.getId()!=null){
             this.board.getCommentList().remove(this);

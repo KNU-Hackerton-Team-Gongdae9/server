@@ -120,6 +120,6 @@ public class MemberController {
     @GetMapping("/test")
     public String getUserEmail(HttpServletRequest req, HttpServletResponse res){
 
-        return authService.getEmailFromJWT(req, res);
+        return authService.getEmailFromJWT(req);
     }
 }

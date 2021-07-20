@@ -9,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.websocket.server.PathParam;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,19 +19,19 @@ public class ReplyController {
     private final DeleteReplyService deleteReplyService;
 
     @PostMapping("/comment/{comment_id}")
-    public ApiUtils.ApiResult<String> writeReply(@Valid @RequestBody ReplyForm replyForm, @PathParam("comment_id") Long commentId){
+    public ApiUtils.ApiResult<String> writeReply(@Valid @RequestBody ReplyForm replyForm, @PathVariable("comment_id") Long commentId){
         writeReplyService.write(commentId, replyForm);
         return ApiUtils.success("성공했습니다.");
     }
 
     @PutMapping("/{reply_id}")
-    public ApiUtils.ApiResult<String> editReply(@Valid @RequestBody ReplyForm replyForm, @PathParam("reply_id") Long replyId){
+    public ApiUtils.ApiResult<String> editReply(@Valid @RequestBody ReplyForm replyForm, @PathVariable("reply_id") Long replyId){
         editReplyService.edit(replyId, replyForm);
         return ApiUtils.success("성공했습니다.");
     }
 
     @DeleteMapping("/{reply_id}")
-    public ApiUtils.ApiResult<String> deleteReply(@PathParam("reply_id") Long replyId){
+    public ApiUtils.ApiResult<String> deleteReply(@PathVariable("reply_id") Long replyId){
         deleteReplyService.delete(replyId);
         return ApiUtils.success("성공했습니다.");
     }

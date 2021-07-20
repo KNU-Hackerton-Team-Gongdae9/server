@@ -45,12 +45,19 @@ public class Profile extends BaseTimeEntity {
         return (changed == null || changed.equals("")) ? original : changed;
     }
 
+    public void setMember(Member member) {
+        this.member = member;
+        member.setProfile(this);
+    }
+
     public static Profile createProfile(Member member, ProfileForm profileForm){
-        return Profile.builder().language(profileForm.getLanguage())
+        Profile profile =  Profile.builder().language(profileForm.getLanguage())
                 .interest(profileForm.getInterest())
                 .githubLink(profileForm.getGithubLink())
                 .blogLink(profileForm.getBlogLink())
                 .imageLink(profileForm.getImageLink())
-                .member(member).build();
+                .build();
+        profile.setMember(member);
+        return profile;
     }
 }

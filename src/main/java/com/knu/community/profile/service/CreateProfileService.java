@@ -1,5 +1,6 @@
 package com.knu.community.profile.service;
 
+import com.knu.community.error.NotFoundException;
 import com.knu.community.member.domain.Member;
 import com.knu.community.member.repository.MemberRepository;
 import com.knu.community.profile.domain.Profile;
@@ -17,7 +18,7 @@ public class CreateProfileService {
 
     @Transactional
     public void createProfile(Long memberId, ProfileForm profileForm) {
-        Member member = memberRepository.findById(memberId).orElseThrow(()->new IllegalArgumentException("사용자가 없습니다."));
+        Member member = memberRepository.findById(memberId).orElseThrow(()->new NotFoundException("사용자가 없습니다."));
         profileRepository.save(Profile.createProfile(member, profileForm));
     }
 }

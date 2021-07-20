@@ -37,26 +37,25 @@ public class MemberController {
     private final CookieUtil cookieUtil;
     private final RedisUtil redisUtil;
 
-//    @PostMapping("/signIn")
-//    public Response signIn(@Valid @RequestBody SignInForm signInForm, HttpServletRequest req, HttpServletResponse res) throws Exception {
-//        try {
-//            final Member member = authService.loginUser(signInForm);
-//            final String token = jwtUtil.generateToken(member.getUsername());
-//            final String refreshJwt = jwtUtil.generateRefreshToken(member);
-//            Cookie accessToken = cookieUtil.createCookie(JwtUtil.ACCESS_TOKEN_NAME, token);
-//            Cookie refreshToken = cookieUtil.createCookie(JwtUtil.REFRESH_TOKEN_NAME, refreshJwt);
-//            redisUtil.setDataExpire(refreshJwt, member.getUsername(), JwtUtil.REFRESH_TOKEN_VALIDATION_SECOND);
-//            res.addCookie(accessToken);
-//            res.addCookie(refreshToken);
-//            return new Response("success", "로그인에 성공했습니다.", token);
-//
-//        } catch (Exception e) {
-//            return new Response("false","로그인실패",null);
-//        }
-//    }
-
     @PostMapping("/signIn")
     public Response signIn(@Valid @RequestBody SignInForm signInForm, HttpServletRequest req, HttpServletResponse res) throws Exception {
+        try {
+            final Member member = authService.loginUser(signInForm);
+            final String token = jwtUtil.generateToken(member.getEmail());
+            final String refreshJwt = jwtUtil.generateRefreshToken(member);
+            Cookie accessToken = cookieUtil.createCookie(JwtUtil.ACCESS_TOKEN_NAME, token);
+            Cookie refreshToken = cookieUtil.createCookie(JwtUtil.REFRESH_TOKEN_NAME, refreshJwt);
+            redisUtil.setDataExpire(refreshJwt, member.getEmail(), JwtUtil.REFRESH_TOKEN_VALIDATION_SECOND);
+            res.addCookie(accessToken);
+            res.addCookie(refreshToken);
+            return new Response("success", "로그인에 성공했습니다.", token);
+        } catch (Exception e) {
+            return new Response("error", "로그인에 실패했습니다.", e.getMessage());
+        }
+    }
+
+    @PostMapping("/signInSession")
+    public Response signInSession(@Valid @RequestBody SignInForm signInForm, HttpServletRequest req, HttpServletResponse res) throws Exception {
         try {
             Member account = memberRepository.findByEmail(signInForm.getEmail());
 
@@ -116,5 +115,11 @@ public class MemberController {
             response = new Response("error", "인증메일을 확인하는데 실패했습니다.", null);
         }
         return response;
+    }
+
+    @GetMapping("/test")
+    public String getUserEmail(HttpServletRequest req, HttpServletResponse res){
+
+        return authService.getEmailFromJWT(req, res);
     }
 }

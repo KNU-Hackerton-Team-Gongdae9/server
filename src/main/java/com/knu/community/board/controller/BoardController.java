@@ -33,17 +33,17 @@ public class BoardController {
         return boardService.findById(boardId);
     }
 
-    @GetMapping("/find")
+    @GetMapping("/findA")
     public List<Board> findBoardByTitle(@RequestParam("title") String title){
         return boardService.findByTitle(title);
     }
 
-    @GetMapping("/find")
+    @GetMapping("/findB")
     public List<Board> findBoardByCategory(@RequestParam("category") Category category){
         return boardService.findByCategory(category);
     }
 
-    @GetMapping("/find")
+    @GetMapping("/findC")
     public List<Board> findBoardByAuthor(@RequestParam("author") String author){
         return boardService.findByAuthor(author);
     }

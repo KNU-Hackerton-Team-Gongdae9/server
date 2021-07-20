@@ -8,8 +8,12 @@ import com.knu.community.member.domain.MemberRole;
 import com.knu.community.member.dto.SignInForm;
 import com.knu.community.member.dto.SignUpForm;
 import com.knu.community.member.repository.MemberRepository;
+import java.util.Base64;
 import java.util.UUID;
 import javassist.NotFoundException;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -94,9 +98,19 @@ public class AuthService {
         memberRepository.save(member);
     }
 
-
-
     public Member findByEmail(String email) {
         return memberRepository.findByEmail(email);
+    }
+
+    public String getEmailFromJWT(HttpServletRequest req, HttpServletResponse res){
+        for (Cookie cookie : req.getCookies()) {
+            System.out.println(cookie.getName());
+            System.out.println(cookie.getValue());
+        }
+        String claim = req.getCookies()[0].getValue();
+        int start = claim.indexOf(".") + 1;
+        int end = claim.lastIndexOf(".");
+        String encodedPayload = claim.substring(start, end);
+        return new String(Base64.getDecoder().decode(encodedPayload)).split("\"")[3];
     }
 }

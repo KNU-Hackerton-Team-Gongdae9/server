@@ -60,8 +60,8 @@ public class Reply extends BaseTimeEntity {
 
     public static Reply createInstance(Comment comment, ReplyForm replyForm){
         Reply reply = Reply.builder()
-                .content(comment.getContent())
-                .author(comment.getAuthor())
+                .content(replyForm.getContent())
+                .author(replyForm.getAuthor())
                 .dateTime(LocalDateTime.now())
                 .build();
         reply.setComment(comment);

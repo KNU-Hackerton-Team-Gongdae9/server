@@ -7,15 +7,18 @@ import com.knu.community.comment.dto.CommentForm;
 import com.knu.community.reply.domain.Reply;
 import java.time.LocalDateTime;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -34,17 +37,15 @@ public class Comment extends BaseTimeEntity {
 
     private String author;
 
-    private LocalDateTime dateTime;
-
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="board_id")
     private Board board;
 
     @OneToMany(mappedBy = "comment")
-    private List<WriteComment> commenterList;
+    private List<WriteComment> commenterList = new ArrayList<>();
 
     @OneToMany(mappedBy = "comment")
-    private List<Reply> replyList;
+    private List<Reply> replyList = new ArrayList<>();
 
 
     public Comment(Board board,CommentForm commentForm){
@@ -56,7 +57,6 @@ public class Comment extends BaseTimeEntity {
     public void edit(CommentForm commentForm){
         content = changedInfo(content, commentForm.getContent());
         author = changedInfo(author, commentForm.getAuthor());
-        dateTime = LocalDateTime.now();
     }
 
     private String changedInfo(String original, String changed){
@@ -64,7 +64,7 @@ public class Comment extends BaseTimeEntity {
     }
 
     public void setBoard(Board board){
-        if(board.getId()!=null){
+        if(this.board!=null){
             this.board.getCommentList().remove(this);
         }
         this.board=board;

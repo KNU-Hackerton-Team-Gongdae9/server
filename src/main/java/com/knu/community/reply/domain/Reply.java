@@ -6,6 +6,7 @@ import com.knu.community.comment.domain.Comment;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -34,14 +35,13 @@ public class Reply extends BaseTimeEntity {
 
     private String author;
 
-    private LocalDateTime dateTime;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="comment_id")
     private Comment comment;
 
     public void setComment(Comment comment){
-        if(comment.getId()!=null){
+        if(this.comment!=null){
             this.comment.getReplyList().remove(this);
         }
         this.comment=comment;
@@ -51,7 +51,6 @@ public class Reply extends BaseTimeEntity {
     public void edit(ReplyForm replyForm){
         content = changedInfo(content, replyForm.getContent());
         author = changedInfo(author, replyForm.getAuthor());
-        dateTime = LocalDateTime.now();
     }
 
     private String changedInfo(String original, String changed){
@@ -62,7 +61,6 @@ public class Reply extends BaseTimeEntity {
         Reply reply = Reply.builder()
                 .content(replyForm.getContent())
                 .author(replyForm.getAuthor())
-                .dateTime(LocalDateTime.now())
                 .build();
         reply.setComment(comment);
         return reply;

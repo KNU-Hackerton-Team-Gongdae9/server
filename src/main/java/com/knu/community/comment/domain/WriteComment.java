@@ -10,9 +10,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
+@NoArgsConstructor
 public class WriteComment extends BaseTimeEntity {
 
     @Id
@@ -35,7 +37,7 @@ public class WriteComment extends BaseTimeEntity {
     }
 
     public void setMember(Member member){
-        if(member.getId()!=null){
+        if(this.member!=null){
             this.member.getCommentList().remove(this);
         }
         this.member=member;
@@ -43,7 +45,7 @@ public class WriteComment extends BaseTimeEntity {
     }
 
     public void setComment(Comment comment){
-        if(comment.getId()!=null){
+        if(this.comment!=null){
             this.comment.getCommenterList().remove(this);
         }
         this.comment=comment;

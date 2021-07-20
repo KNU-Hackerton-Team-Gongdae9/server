@@ -1,8 +1,10 @@
 package com.knu.community.board.controller;
 
 import com.knu.community.board.domain.Board;
+import com.knu.community.board.domain.Category;
 import com.knu.community.board.dto.BoardForm;
 import com.knu.community.board.service.BoardService;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -26,8 +29,25 @@ public class BoardController {
     }
 
     @GetMapping("/{boardId}")
-    public Board findBoard(@PathVariable("boardId") Long boardId){
+    public Board findOneBoard(@PathVariable("boardId") Long boardId){
         return boardService.findById(boardId);
     }
+
+    @GetMapping("/find")
+    public List<Board> findBoardByTitle(@RequestParam("title") String title){
+        return boardService.findByTitle(title);
+    }
+
+    @GetMapping("/find")
+    public List<Board> findBoardByCategory(@RequestParam("category") Category category){
+        return boardService.findByCategory(category);
+    }
+
+    @GetMapping("/find")
+    public List<Board> findBoardByAuthor(@RequestParam("author") String author){
+        return boardService.findByAuthor(author);
+    }
+
+
 
 }

@@ -4,6 +4,7 @@ package com.knu.community.board.domain;
 import com.knu.community.base.BaseTimeEntity;
 import com.knu.community.board.dto.BoardForm;
 import com.knu.community.comment.domain.Comment;
+import com.knu.community.reply.dto.ReplyForm;
 import java.time.LocalDateTime;
 import java.util.List;
 import javax.persistence.Column;
@@ -45,6 +46,16 @@ public class Board extends BaseTimeEntity {
 
     @OneToMany(mappedBy="board")
     private List<Comment> commentList;
+
+    public void edit(BoardForm boardForm){
+        content = changedInfo(content, boardForm.getContent());
+        author = changedInfo(author, boardForm.getAuthor());
+        dateTime = LocalDateTime.now();
+    }
+
+    private String changedInfo(String original, String changed){
+        return (changed == null || changed.equals("")) ? original : changed;
+    }
 
 
     public static Board createBoard(BoardForm boardForm){

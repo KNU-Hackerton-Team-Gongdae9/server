@@ -66,6 +66,12 @@ public class BoardService {
     }
 
     @Transactional
+    public void updateBoard(Long userId,Long boardId,BoardForm boardForm){
+        Board board = boardRepository.findById(boardId).orElseThrow(NotFoundException::new);
+        board.edit(boardForm);
+    }
+
+    @Transactional
     public Board createBoard(BoardForm boardForm){
         Board board = Board.createBoard(boardForm);
         boardRepository.save(board);

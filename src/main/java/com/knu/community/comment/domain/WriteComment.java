@@ -28,6 +28,12 @@ public class WriteComment extends BaseTimeEntity {
     @JoinColumn(name="member_id")
     private Member member;
 
+
+    public WriteComment(Member member,Comment comment){
+        setComment(comment);
+        setMember(member);
+    }
+
     public void setMember(Member member){
         if(member.getId()!=null){
             this.member.getCommentList().remove(this);

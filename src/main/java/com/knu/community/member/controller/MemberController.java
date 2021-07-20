@@ -10,11 +10,13 @@ import com.knu.community.member.domain.Member;
 import com.knu.community.member.dto.RequestVerifyEmail;
 import com.knu.community.member.dto.SignInForm;
 import com.knu.community.member.dto.SignUpForm;
+import com.knu.community.member.repository.MemberRepository;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,23 +30,44 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("user")
 public class MemberController {
 
+    private final MemberRepository memberRepository;
+    private final PasswordEncoder passwordEncoder;
     private final AuthService authService;
     private final JwtUtil jwtUtil;
     private final CookieUtil cookieUtil;
     private final RedisUtil redisUtil;
 
+//    @PostMapping("/signIn")
+//    public Response signIn(@Valid @RequestBody SignInForm signInForm, HttpServletRequest req, HttpServletResponse res) throws Exception {
+//        try {
+//            final Member member = authService.loginUser(signInForm);
+//            final String token = jwtUtil.generateToken(member.getUsername());
+//            final String refreshJwt = jwtUtil.generateRefreshToken(member);
+//            Cookie accessToken = cookieUtil.createCookie(JwtUtil.ACCESS_TOKEN_NAME, token);
+//            Cookie refreshToken = cookieUtil.createCookie(JwtUtil.REFRESH_TOKEN_NAME, refreshJwt);
+//            redisUtil.setDataExpire(refreshJwt, member.getUsername(), JwtUtil.REFRESH_TOKEN_VALIDATION_SECOND);
+//            res.addCookie(accessToken);
+//            res.addCookie(refreshToken);
+//            return new Response("success", "로그인에 성공했습니다.", token);
+//
+//        } catch (Exception e) {
+//            return new Response("false","로그인실패",null);
+//        }
+//    }
+
     @PostMapping("/signIn")
     public Response signIn(@Valid @RequestBody SignInForm signInForm, HttpServletRequest req, HttpServletResponse res) throws Exception {
         try {
-            final Member member = authService.loginUser(signInForm);
-            final String token = jwtUtil.generateToken(member.getUsername());
-            final String refreshJwt = jwtUtil.generateRefreshToken(member);
-            Cookie accessToken = cookieUtil.createCookie(JwtUtil.ACCESS_TOKEN_NAME, token);
-            Cookie refreshToken = cookieUtil.createCookie(JwtUtil.REFRESH_TOKEN_NAME, refreshJwt);
-            redisUtil.setDataExpire(refreshJwt, member.getUsername(), JwtUtil.REFRESH_TOKEN_VALIDATION_SECOND);
-            res.addCookie(accessToken);
-            res.addCookie(refreshToken);
-            return new Response("success", "로그인에 성공했습니다.", token);
+            Member account = memberRepository.findByEmail(signInForm.getEmail());
+
+            if(!passwordEncoder.matches(signInForm.getPassword(), account.getPassword())){
+                System.out.println("ERROR");
+                return null;
+            }
+
+            req.setAttribute("userId", account.getId());
+            return new Response("success", "로그인에 성공했습니다.", account);
+
 
         } catch (Exception e) {
             return new Response("false","로그인실패",null);

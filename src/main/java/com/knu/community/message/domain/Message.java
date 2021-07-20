@@ -1,6 +1,6 @@
 package com.knu.community.message.domain;
 
-import com.knu.community.base.BaseEntity;
+
 import com.knu.community.base.BaseTimeEntity;
 import com.knu.community.member.domain.Member;
 import lombok.AllArgsConstructor;
@@ -24,10 +24,10 @@ public class Message extends BaseTimeEntity {
     private Boolean read;
 
     @ManyToOne
-    @JoinColumn(name="member_id")
+    @JoinColumn
     private Member sender;
 
     @ManyToOne
-    @JoinColumn(name="member_id")
+    @JoinColumn
     private Member receiver;
 }

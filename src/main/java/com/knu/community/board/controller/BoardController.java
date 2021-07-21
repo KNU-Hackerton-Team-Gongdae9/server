@@ -1,14 +1,19 @@
 package com.knu.community.board.controller;
 
+import static com.knu.community.util.ApiUtils.success;
+
 import com.knu.community.board.domain.Board;
 import com.knu.community.board.domain.Category;
+import com.knu.community.board.dto.BoardDto;
 import com.knu.community.board.dto.BoardForm;
 import com.knu.community.board.service.BoardService;
 import com.knu.community.email.service.AuthService;
 import com.knu.community.member.repository.MemberRepository;
+import com.knu.community.util.ApiUtils.ApiResult;
 import io.swagger.annotations.ApiOperation;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import javassist.NotFoundException;
 import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -29,33 +34,35 @@ public class BoardController {
 
     private final AuthService authService;
 
-    private final MemberRepository memberRepository;
 
     @PostMapping("/write")
-    public Board writeBoard(@RequestBody BoardForm boardForm, HttpServletRequest req)
+    public ApiResult<BoardDto> writeBoard(@RequestBody BoardForm boardForm, HttpServletRequest req)
         throws NotFoundException {
         Long userId = authService.getUserIdFromJWT(req);
-        return boardService.writeBoard(userId, boardForm);
+        return success(new BoardDto(boardService.writeBoard(userId, boardForm)));
     }
 
     @GetMapping("/{boardId}")
-    public Board findOneBoard(@PathVariable("boardId") Long boardId){
-        return boardService.findById(boardId);
+    public ApiResult<BoardDto> findOneBoard(@PathVariable("boardId") Long boardId){
+        return success(new BoardDto(boardService.findById(boardId));
     }
 
     @GetMapping("/findTitle")
-    public List<Board> findBoardByTitle(@RequestParam("title") String title){
-        return boardService.findByTitle(title);
+    public ApiResult<List<BoardDto>> findBoardByTitle(@RequestParam("title") String title){
+        return success(boardService.findByTitle(title).stream()
+        .map(BoardDto::new).collect(Collectors.toList()));
     }
 
     @GetMapping("/findCategory")
-    public List<Board> findBoardByCategory(@RequestParam("category") Category category){
-        return boardService.findByCategory(category);
+    public ApiResult<List<BoardDto>> findBoardByCategory(@RequestParam("category") Category category){
+        return success(boardService.findByCategory(category).stream()
+            .map(BoardDto::new).collect(Collectors.toList()));
     }
 
     @GetMapping("/findAuthor")
-    public List<Board> findBoardByAuthor(@RequestParam("author") String author){
-        return boardService.findByAuthor(author);
+    public ApiResult<List<BoardDto>>  findBoardByAuthor(@RequestParam("author") String author){
+        return success(boardService.findByAuthor(author).stream()
+            .map(BoardDto::new).collect(Collectors.toList()));
     }
 
     @GetMapping("/findBoardWithAll")

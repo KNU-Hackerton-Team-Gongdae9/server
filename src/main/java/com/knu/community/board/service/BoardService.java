@@ -2,10 +2,8 @@ package com.knu.community.board.service;
 
 import com.knu.community.board.domain.Board;
 import com.knu.community.board.domain.Category;
-import com.knu.community.board.domain.WriteBoard;
 import com.knu.community.board.dto.BoardForm;
 import com.knu.community.board.repository.BoardRepository;
-import com.knu.community.board.repository.WriteBoardRepository;
 import com.knu.community.error.NotFoundException;
 import com.knu.community.member.domain.Member;
 import com.knu.community.member.repository.MemberRepository;
@@ -19,19 +17,18 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class BoardService {
 
-    private final WriteBoardRepository writeBoardRepository;
     private final BoardRepository boardRepository;
     private final MemberRepository memberRepository;
 
 
     @Transactional
     public Board writeBoard(Long userId, BoardForm boardForm){
-        Board board = createBoard(boardForm);
         Member member = memberRepository.findById(userId).orElseThrow(
             ()-> new NotFoundException("Member를 찾을 수 없습니다"));
 
-        WriteBoard writeBoard = new WriteBoard(member,board);
-        writeBoardRepository.save(writeBoard);
+        Board board = Board.createBoard(member,boardForm);
+        boardRepository.save(board);
+
 
         return board;
     }
@@ -44,25 +41,31 @@ public class BoardService {
 
     @Transactional(readOnly = true)
     public List<Board> findByTitle(String title){
-        return boardRepository.findByTitle(title).orElseThrow(
-            ()->new NotFoundException(("Title에 해당하는 Board를 찾을 수 없습니다")));
+        Optional<List<Board>> byTitle = boardRepository.findByTitle(title);
+        if(byTitle.get().size()==0) throw new NotFoundException("Title : "+title+"에 해당하는 Board를 찾을 수 없습니다");
+
+        return byTitle.get();
     }
 
     @Transactional(readOnly = true)
     public List<Board> findByAuthor(String author){
-        return boardRepository.findByAuthor(author).orElseThrow(
-            ()->new NotFoundException(("Author에 해당하는 Board를 찾을 수 없습니다")));
+        Optional<List<Board>> byAuthor = boardRepository.findByAuthor(author);
+        if(byAuthor.get().size()==0) throw new NotFoundException("Author :"+author+" 해당하는 Board를 찾을 수 없습니다");
+
+        return byAuthor.get();
     }
 
     @Transactional(readOnly = true)
     public List<Board> findByCategory(Category category){
-        return boardRepository.findByCategory(category).orElseThrow(
-            ()->new NotFoundException(("Category에 해당하는 Board를 찾을 수 없습니다")));
+        Optional<List<Board>> byCategory = boardRepository.findByCategory(category);
+        if(byCategory.get().size()==0) throw new NotFoundException("Category :" +category+" 해당하는 Board를 찾을 수 없습니다");
+
+        return byCategory.get();
     }
 
     @Transactional
     public void deleteBoard(Long boardId){
-       boardRepository.deleteById(boardId);
+        boardRepository.deleteById(boardId);
     }
 
     @Transactional
@@ -71,13 +74,6 @@ public class BoardService {
         board.edit(boardForm);
     }
 
-    @Transactional
-    public Board createBoard(BoardForm boardForm){
-        Board board = Board.createBoard(boardForm);
-        boardRepository.save(board);
-
-        return board;
-    }
 
     public List<Board> findMyBoards(Long memId) {
         return boardRepository.findMyBoards(memId).orElseThrow(()->
@@ -85,3 +81,4 @@ public class BoardService {
         );
     }
 }
+

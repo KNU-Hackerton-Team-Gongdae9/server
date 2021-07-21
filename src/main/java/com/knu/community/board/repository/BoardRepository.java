@@ -12,7 +12,8 @@ import org.springframework.data.repository.query.Param;
 
 public interface BoardRepository extends JpaRepository<Board,Long> {
 
-    Optional<List<Board>> findByTitle(String title);
+    @Query("select b from Board b where b.title LIKE %:title%")
+    Optional<List<Board>> findByTitle(@Param(value="title") String title);
 
     Optional<List<Board>> findByCategory(Category category);
 
@@ -20,4 +21,7 @@ public interface BoardRepository extends JpaRepository<Board,Long> {
 
     @Query("select m.boardList from Member m where m.id = :memId")
     Optional<List<Board>> findMyBoards(@Param(value="memId") Long memId);
+
+    @Query("select b from Board b where b.content LIKE %:content%")
+    Optional<List<Board>> findByContent(@Param(value="content") String content);
 }

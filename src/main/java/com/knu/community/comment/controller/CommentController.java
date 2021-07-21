@@ -41,7 +41,7 @@ public class CommentController {
         return success(new CommentDto(commentService.writeComment(boardId, userId, commentForm)));
     }
 
-    @ApiOperation(notes = "내가 쓴 댓글 조회", value = "내가 쓴 댓글을 모두 조회한다.")
+    @ApiOperation(value = "내가 쓴 댓글 조회", notes = "내가 쓴 댓글을 모두 조회한다.")
     @GetMapping("/getAllComments")
     public ApiResult<List<CommentDto>> getMyAllWrite(HttpServletRequest req) throws NotFoundException {
         Long memId = authService.getUserIdFromJWT(req);

@@ -2,6 +2,7 @@ package com.knu.community;
 
 import com.knu.community.board.domain.Board;
 import com.knu.community.board.domain.Category;
+import com.knu.community.board.dto.BoardDetailDto;
 import com.knu.community.board.dto.BoardForm;
 import com.knu.community.board.repository.BoardRepository;
 import com.knu.community.board.service.BoardService;
@@ -166,8 +167,8 @@ public class BoardTest {
 //        replyService.write(comment2.getId(), replyForm4);
 
         //then
-        List<Board> boards = boardService.findMyBoards(member1.getId());
-        for (Board board1 : boards) {
+        List<BoardDetailDto> boards = boardService.findMyBoards(member1.getId());
+        for (BoardDetailDto board1 : boards) {
             System.out.println(board1.getTitle());
             System.out.println(board1.getTitle());
         }

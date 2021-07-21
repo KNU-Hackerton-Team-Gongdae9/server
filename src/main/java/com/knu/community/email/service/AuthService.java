@@ -104,11 +104,17 @@ public class AuthService {
     }
 
     public Long getUserIdFromJWT(HttpServletRequest req) throws NotFoundException {
-        String claim = req.getCookies()[0].getValue();
+        String claim = "";
+        for (Cookie cookie : req.getCookies()) {
+            if(cookie.getName().equals("accessToken")){
+                claim = cookie.getValue();
+                break;
+            }
+        }
         int start = claim.indexOf(".") + 1;
         int end = claim.lastIndexOf(".");
         if(start == -1 || end == -1){
-            throw new NotFoundException("아직 JWT 토큰을 발급받지 않은 상태입니다.");
+            throw new NotFoundException("아직 JWT 토큰을 발급받지 않은 상태입니다." + claim);
         }
         String encodedPayload = claim.substring(start, end);
         String email = new String(Base64.getDecoder().decode(encodedPayload)).split("\"")[3];

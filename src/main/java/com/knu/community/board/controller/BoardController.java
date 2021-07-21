@@ -40,7 +40,7 @@ public class BoardController {
         return boardService.findById(boardId);
     }
 
-    @GetMapping("/findAuthor")
+    @GetMapping("/findTitle")
     public List<Board> findBoardByTitle(@RequestParam("title") String title){
         return boardService.findByTitle(title);
     }

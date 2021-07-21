@@ -1,5 +1,7 @@
 package com.knu.community.profile.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.knu.community.base.BaseTimeEntity;
 import com.knu.community.member.domain.Member;
 import com.knu.community.profile.dto.ProfileForm;
@@ -31,6 +33,7 @@ public class Profile extends BaseTimeEntity {
 
     @OneToOne
     @JoinColumn(name = "member_id")
+    @JsonIgnore
     private Member member;
 
     public void update(ProfileForm profileForm){

@@ -14,7 +14,6 @@ import javax.validation.Valid;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(path = "/profile")
-@SessionAttributes("profile")
 public class ProfileController {
     private final CreateProfileService createProfileService;
     private final ChangeProfileService changeProfileService;

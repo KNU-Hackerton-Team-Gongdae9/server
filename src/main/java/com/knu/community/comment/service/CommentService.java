@@ -10,6 +10,10 @@ import com.knu.community.comment.repository.WriteCommentRepository;
 import com.knu.community.error.NotFoundException;
 import com.knu.community.member.domain.Member;
 import com.knu.community.member.repository.MemberRepository;
+import com.knu.community.reply.domain.Reply;
+import com.knu.community.reply.repository.ReplyRepository;
+import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class CommentService {
 
     private final CommentRepository commentRepository;
+    private final ReplyRepository replyRepository;
     private final BoardRepository boardRepository;
     private final MemberRepository memberRepository;
     private final WriteCommentRepository writeCommentRepository;
@@ -60,6 +65,12 @@ public class CommentService {
         commentRepository.save(comment);
 
         return comment;
+    }
+
+    public List<Comment> findMyComments(Long memId) {
+        return commentRepository.findMyComments(memId).orElseThrow(()->
+            new NotFoundException("작성한 댓글이 없습니다.")
+        );
     }
 
 }

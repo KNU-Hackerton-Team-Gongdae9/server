@@ -1,10 +1,15 @@
 package com.knu.community.reply.controller;
 
+import com.knu.community.email.service.AuthService;
+import com.knu.community.reply.domain.Reply;
 import com.knu.community.reply.dto.ReplyForm;
 import com.knu.community.reply.service.DeleteReplyService;
 import com.knu.community.reply.service.EditReplyService;
+import com.knu.community.reply.service.GetReplyService;
 import com.knu.community.reply.service.WriteReplyService;
 import com.knu.community.util.ApiUtils;
+import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,9 +19,11 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 @RequestMapping(path = "/reply")
 public class ReplyController {
+    private final GetReplyService getReplyService;
     private final WriteReplyService writeReplyService;
     private final EditReplyService editReplyService;
     private final DeleteReplyService deleteReplyService;
+    private final AuthService authService;
 
     @PostMapping("/comment/{comment_id}")
     public ApiUtils.ApiResult<String> writeReply(@Valid @RequestBody ReplyForm replyForm, @PathVariable("comment_id") Long commentId){
@@ -34,5 +41,11 @@ public class ReplyController {
     public ApiUtils.ApiResult<String> deleteReply(@PathVariable("reply_id") Long replyId){
         deleteReplyService.delete(replyId);
         return ApiUtils.success("성공했습니다.");
+    }
+
+    @GetMapping("/getMyReplies")
+    public List<Reply> getMyReplies(HttpServletRequest req){
+        Long memId = authService.getUserIdFromJWT(req);
+        return getReplyService.findMyReplies(memId);
     }
 }

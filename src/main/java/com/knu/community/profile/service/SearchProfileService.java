@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 public class SearchProfileService {
     private final ProfileRepository profileRepository;
 
-    public Profile searchProfile(Long memberId) {
-        return profileRepository.findByMember_Id(memberId).orElseThrow(()->new NotFoundException("프로필이 없습니다."));
+    public Profile searchProfileBy(String nickName) {
+        return profileRepository.findByMember_Nickname(nickName).orElseThrow(()->new NotFoundException("프로필이 없습니다."));
     }
 }

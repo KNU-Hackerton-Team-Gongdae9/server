@@ -44,20 +44,26 @@ public class BoardService {
 
     @Transactional(readOnly = true)
     public List<Board> findByTitle(String title){
-        return boardRepository.findByTitle(title).orElseThrow(
-            ()->new NotFoundException(("Title에 해당하는 Board를 찾을 수 없습니다")));
+        Optional<List<Board>> byTitle = boardRepository.findByTitle(title);
+        if(byTitle.get().size()==0) throw new NotFoundException("Title : "+title+"에 해당하는 Board를 찾을 수 없습니다");
+
+        return byTitle.get();
     }
 
     @Transactional(readOnly = true)
     public List<Board> findByAuthor(String author){
-        return boardRepository.findByAuthor(author).orElseThrow(
-            ()->new NotFoundException(("Author에 해당하는 Board를 찾을 수 없습니다")));
+        Optional<List<Board>> byAuthor = boardRepository.findByAuthor(author);
+        if(byAuthor.get().size()==0) throw new NotFoundException("Author :"+author+" 해당하는 Board를 찾을 수 없습니다");
+
+        return byAuthor.get();
     }
 
     @Transactional(readOnly = true)
     public List<Board> findByCategory(Category category){
-        return boardRepository.findByCategory(category).orElseThrow(
-            ()->new NotFoundException(("Category에 해당하는 Board를 찾을 수 없습니다")));
+        Optional<List<Board>> byCategory = boardRepository.findByCategory(category);
+        if(byCategory.get().size()==0) throw new NotFoundException("Category :" +category+" 해당하는 Board를 찾을 수 없습니다");
+
+        return byCategory.get();
     }
 
     @Transactional

@@ -6,10 +6,13 @@ import com.knu.community.profile.service.ChangeProfileService;
 import com.knu.community.profile.service.CreateProfileService;
 import com.knu.community.profile.service.SearchProfileService;
 import com.knu.community.util.ApiUtils;
+import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.IOException;
 
 @RestController
 @RequiredArgsConstructor
@@ -34,5 +37,10 @@ public class ProfileController {
     public ApiUtils.ApiResult<String> changeProfile(@Valid @RequestBody ProfileForm profileForm, @PathVariable("member_id") Long memberId){
         changeProfileService.changeProfile(memberId, profileForm);
         return ApiUtils.success("성공");
+    }
+
+    @PutMapping("/uploadProfileImage/user/{member_id}")
+    public ApiUtils.ApiResult<Profile> changeProfileImage(@RequestParam MultipartFile file, @PathVariable("member_id") Long memberId) throws IOException {
+        return ApiUtils.success(changeProfileService.changeProfileImage(memberId, file));
     }
 }

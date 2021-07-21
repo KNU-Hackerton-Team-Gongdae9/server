@@ -83,6 +83,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     @ResponseBody
     protected ApiUtils.ApiResult handleException(Exception e) {
+        e.printStackTrace();
         log.error(e.getMessage());
         return ApiUtils.error(e, HttpStatus.INTERNAL_SERVER_ERROR);
     }

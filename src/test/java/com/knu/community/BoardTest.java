@@ -78,40 +78,40 @@ public class BoardTest {
         try {
 
             /* Board 생성 */
-            BoardForm boardForm = BoardForm.builder()
-                .category(Category.QNA)
-                .author(member1.getUsername())
-                .Title("제목1")
-                .content("내용1")
-                .build();
+//            BoardForm boardForm = BoardForm.builder()
+//                .category(Category.QNA)
+//                .author(member1.getUsername())
+//                .Title("제목1")
+//                .content("내용1")
+//                .build();
 
-            Board board = boardService.writeBoard(member1.getId(), boardForm);
+ //           Board board = boardService.writeBoard(member1.getId(), boardForm);
 
             /* Comment 생성 */
-            CommentForm commentForm = CommentForm.builder()
-                .author(member2.getUsername())
-                .content(member2.getUsername() + "이 작성한 댓글 내용")
-                .build();
-            Comment comment = commentService.writeComment(board.getId(), member2.getId(), commentForm);
+//            CommentForm commentForm = CommentForm.builder()
+//                .author(member2.getUsername())
+//                .content(member2.getUsername() + "이 작성한 댓글 내용")
+//                .build();
+          //  Comment comment = commentService.writeComment(board.getId(), member2.getId(), commentForm);
 
 
             /* Reply 생성 */
-            ReplyForm replyForm = new ReplyForm(member3.getUsername() + "이 작성한 답글 내용", member3.getUsername());
-            replyService.write(comment.getId(), replyForm);
-
-            ReplyForm replyForm2 = new ReplyForm(member4.getUsername() + "이 작성한 답글 내용", member4.getUsername());
-            replyService.write(comment.getId(), replyForm2);
+//            ReplyForm replyForm = new ReplyForm(member3.getUsername() + "이 작성한 답글 내용", member3.getUsername());
+//            replyService.write(comment.getId(), replyForm);
+//
+//            ReplyForm replyForm2 = new ReplyForm(member4.getUsername() + "이 작성한 답글 내용", member4.getUsername());
+//            replyService.write(comment.getId(), replyForm2);
 
             //given
-            Board boardWithAll = boardRepository.findById(board.getId()).get();
+ //           Board boardWithAll = boardRepository.findById(board.getId()).get();
 
-            System.out.println(boardWithAll.getAuthor() + "가 작성한 글입니다.");
-            for (Comment commentT : boardWithAll.getCommentList()) {
-                System.out.println(commentT.getAuthor() + "가 작성한 댓글입니다.");
-                for (Reply reply : commentT.getReplyList()) {
-                    System.out.println(reply.getAuthor() + "가 작성한 답글입니다.");
-                }
-            }
+//            System.out.println(boardWithAll.getAuthor() + "가 작성한 글입니다.");
+//            for (Comment commentT : boardWithAll.getCommentList()) {
+//                System.out.println(commentT.getAuthor() + "가 작성한 댓글입니다.");
+//                for (Reply reply : commentT.getReplyList()) {
+//                    System.out.println(reply.getAuthor() + "가 작성한 답글입니다.");
+//                }
+//            }
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -129,41 +129,41 @@ public class BoardTest {
 
         //when
         /* Board 생성 */
-        BoardForm boardForm = BoardForm.builder()
-            .category(Category.QNA)
-            .author(member1.getNickname())
-            .Title("제목1")
-            .content("내용1")
-            .build();
+//        BoardForm boardForm = BoardForm.builder()
+//            .category(Category.QNA)
+//            .author(member1.getNickname())
+//            .Title("제목1")
+//            .content("내용1")
+//            .build();
 
-        Board board = boardService.writeBoard(member1.getId(), boardForm);
-
-        /* Comment 생성 */
-        CommentForm commentForm = CommentForm.builder()
-            .author(member2.getUsername())
-            .content(member2.getUsername() + "이 작성한 댓글 내용")
-            .build();
-        Comment comment = commentService.writeComment(board.getId(), member2.getId(), commentForm);
+  //      Board board = boardService.writeBoard(member1.getId(), boardForm);
 
         /* Comment 생성 */
-        commentForm = CommentForm.builder()
-            .author(member1.getUsername())
-            .content(member1.getUsername() + "이 작성한 댓글 내용")
-            .build();
-        Comment comment2 = commentService.writeComment(board.getId(), member1.getId(), commentForm);
+//        CommentForm commentForm = CommentForm.builder()
+//            .author(member2.getUsername())
+//            .content(member2.getUsername() + "이 작성한 댓글 내용")
+//            .build();
+//        Comment comment = commentService.writeComment(board.getId(), member2.getId(), commentForm);
+//
+//        /* Comment 생성 */
+//        commentForm = CommentForm.builder()
+//            .author(member1.getUsername())
+//            .content(member1.getUsername() + "이 작성한 댓글 내용")
+//            .build();
+     //   Comment comment2 = commentService.writeComment(board.getId(), member1.getId(), commentForm);
 
         /* Reply 생성 */
-        ReplyForm replyForm = new ReplyForm(member1.getUsername() + "이 작성한 답글 내용", member1.getUsername());
-        replyService.write(comment.getId(), replyForm);
-
-        ReplyForm replyForm2 = new ReplyForm(member4.getUsername() + "이 작성한 답글 내용", member4.getUsername());
-        replyService.write(comment.getId(), replyForm2);
-
-        ReplyForm replyForm3 = new ReplyForm(member2.getUsername() + "이 작성한 답글 내용", member2.getUsername());
-        replyService.write(comment2.getId(), replyForm3);
-
-        ReplyForm replyForm4 = new ReplyForm(member3.getUsername() + "이 작성한 답글 내용", member3.getUsername());
-        replyService.write(comment2.getId(), replyForm4);
+//        ReplyForm replyForm = new ReplyForm(member1.getUsername() + "이 작성한 답글 내용", member1.getUsername());
+//        replyService.write(comment.getId(), replyForm);
+//
+//        ReplyForm replyForm2 = new ReplyForm(member4.getUsername() + "이 작성한 답글 내용", member4.getUsername());
+//        replyService.write(comment.getId(), replyForm2);
+//
+//        ReplyForm replyForm3 = new ReplyForm(member2.getUsername() + "이 작성한 답글 내용", member2.getUsername());
+//        replyService.write(comment2.getId(), replyForm3);
+//
+//        ReplyForm replyForm4 = new ReplyForm(member3.getUsername() + "이 작성한 답글 내용", member3.getUsername());
+//        replyService.write(comment2.getId(), replyForm4);
 
         //then
         List<Board> boards = boardService.findMyBoards(member1.getId());

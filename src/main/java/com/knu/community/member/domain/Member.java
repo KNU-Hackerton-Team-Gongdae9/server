@@ -2,8 +2,8 @@ package com.knu.community.member.domain;
 
 
 import com.knu.community.base.BaseTimeEntity;
-import com.knu.community.board.domain.WriteBoard;
-import com.knu.community.comment.domain.WriteComment;
+import com.knu.community.board.domain.Board;
+import com.knu.community.comment.domain.Comment;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.*;
@@ -43,10 +43,10 @@ public class Member extends BaseTimeEntity {
 
 
     @OneToMany(mappedBy="member")
-    @Builder.Default private List<WriteBoard> boardList = new ArrayList<>();
+    @Builder.Default private List<Board> boardList = new ArrayList<>();
 
     @OneToMany(mappedBy="member")
-    @Builder.Default private List<WriteComment> commentList = new ArrayList<>();
+    @Builder.Default private List<Comment> commentList = new ArrayList<>();
 
     // message
     @OneToMany(mappedBy = "sender")

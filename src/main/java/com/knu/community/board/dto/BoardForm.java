@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-@Builder
 public class BoardForm {
 
     private Category category;
@@ -15,6 +14,8 @@ public class BoardForm {
     private String content;
 
     private String author;
+
+    public BoardForm(){}
 
 
 }

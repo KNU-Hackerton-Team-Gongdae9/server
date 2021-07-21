@@ -7,6 +7,7 @@ import com.knu.community.board.service.BoardService;
 import com.knu.community.email.service.AuthService;
 import com.knu.community.member.repository.MemberRepository;
 import java.util.List;
+import javassist.NotFoundException;
 import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,9 +30,9 @@ public class BoardController {
     private final MemberRepository memberRepository;
 
     @PostMapping("/write")
-    public Board writeBoard(@RequestBody BoardForm boardForm, HttpServletRequest req){
-        String email = authService.getEmailFromJWT(req);
-        Long userId = memberRepository.findByEmail(email).getId();
+    public Board writeBoard(@RequestBody BoardForm boardForm, HttpServletRequest req)
+        throws NotFoundException {
+        Long userId = authService.getUserIdFromJWT(req);
         return boardService.writeBoard(userId, boardForm);
     }
 
@@ -55,6 +56,9 @@ public class BoardController {
         return boardService.findByAuthor(author);
     }
 
-
-
+    @GetMapping("/findBoardWithAll")
+    public Board findBoardWithAll(@RequestParam("boardId") Long id){
+        return boardService.findById(id);
+        // TODO: 페치조인으로 쿼리 최적화 필요..
+    }
 }

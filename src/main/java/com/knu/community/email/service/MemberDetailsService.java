@@ -1,5 +1,6 @@
 package com.knu.community.email.service;
 
+import com.knu.community.error.NotFoundException;
 import com.knu.community.member.domain.Member;
 import com.knu.community.member.repository.MemberRepository;
 import com.knu.community.member.security.SecurityMember;
@@ -16,10 +17,9 @@ public class MemberDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Member member = memberRepository.findByEmail(email);
-        if(member == null){
-            throw new UsernameNotFoundException(email + " : 사용자 존재하지 않음");
-        }
+        Member member = memberRepository.findByEmail(email).orElseThrow(()->
+            new UsernameNotFoundException(email + " : 사용자 존재하지 않음")
+        );
         return new SecurityMember(member);
     }
 }

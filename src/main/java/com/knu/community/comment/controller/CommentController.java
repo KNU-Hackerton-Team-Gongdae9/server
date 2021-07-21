@@ -4,6 +4,8 @@ package com.knu.community.comment.controller;
 import com.knu.community.comment.domain.Comment;
 import com.knu.community.comment.dto.CommentForm;
 import com.knu.community.comment.service.CommentService;
+import com.knu.community.email.service.AuthService;
+import javassist.NotFoundException;
 import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,11 +21,12 @@ public class CommentController {
 
     private final CommentService commentService;
 
+    private final AuthService authService;
 
     @PostMapping("/write/{boardId}")
     public Comment wrieComment(@RequestBody CommentForm commentForm, @PathVariable("boardId") Long boardId,
-        HttpServletRequest req){
-        Long userId = (Long)req.getSession().getAttribute("userId");
+        HttpServletRequest req) throws NotFoundException {
+        Long userId = authService.getUserIdFromJWT(req);
 
         Comment comment = commentService.writeComment(boardId, userId, commentForm);
         return comment;

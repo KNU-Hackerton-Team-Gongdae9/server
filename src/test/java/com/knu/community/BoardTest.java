@@ -45,45 +45,10 @@ public class BoardTest {
 
     @Test
     public void 게시판_댓글_전체_조회(){
-        SignUpForm signUpForm1 = SignUpForm.builder()
-            .email("ggolong5@knu.ac.kr")
-            .password("12345678")
-            .username("권현수")
-            .nickname("ggolong")
-            .grade(0)
-            .major(Major.ADVANCED)
-            .studentId("2020202020")
-            .build();
-
-        SignUpForm signUpForm2 = SignUpForm.builder()
-            .email("ggolong2@knu.ac.kr")
-            .password("12345678")
-            .username("김창묵")
-            .nickname("ggolong2")
-            .grade(0)
-            .major(Major.ADVANCED)
-            .studentId("2020202020")
-            .build();
-
-        SignUpForm signUpForm3 = SignUpForm.builder()
-            .email("ggolong3@knu.ac.kr")
-            .password("12345678")
-            .username("이현섭")
-            .nickname("ggolong3")
-            .grade(0)
-            .major(Major.ADVANCED)
-            .studentId("2020202020")
-            .build();
-
-        SignUpForm signUpForm4 = SignUpForm.builder()
-            .email("ggolong4@knu.ac.kr")
-            .password("12345678")
-            .username("한현민")
-            .nickname("ggolong4")
-            .grade(0)
-            .major(Major.ADVANCED)
-            .studentId("2020202020")
-            .build();
+        SignUpForm signUpForm1 = new SignUpForm("ggolong5", "ggolong5@knu.ac.kr", "1234", "권현수", "2020202020", 0, Major.ADVANCED);
+        SignUpForm signUpForm2 = new SignUpForm("ggolong2", "ggolong2@knu.ac.kr", "1234", "김창묵", "2020202020", 1, Major.ADVANCED);
+        SignUpForm signUpForm3 = new SignUpForm("ggolong3", "ggolong3@knu.ac.kr", "1234", "이현섭", "2020202020", 1, Major.ADVANCED);
+        SignUpForm signUpForm4 = new SignUpForm("ggolong4", "ggolong4@knu.ac.kr", "1234", "한현민", "2020202020", 1, Major.ADVANCED);
 
         try {
             Member member1 = authService.signUpMember(signUpForm1);

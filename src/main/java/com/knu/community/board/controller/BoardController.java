@@ -4,6 +4,7 @@ import static com.knu.community.util.ApiUtils.success;
 
 import com.knu.community.board.domain.Board;
 import com.knu.community.board.domain.Category;
+import com.knu.community.board.dto.BoardDetailDto;
 import com.knu.community.board.dto.BoardDto;
 import com.knu.community.board.dto.BoardForm;
 import com.knu.community.board.service.BoardService;
@@ -71,16 +72,17 @@ public class BoardController {
             .map(BoardDto::new).collect(Collectors.toList()));
     }
 
+    @ApiOperation(value = "특정 게시물 조회", notes = "게시물 내에 포함된 댓글과 답글도 모두 조회한다.")
     @GetMapping("/findBoardWithAll")
-    public Board findBoardWithAll(@RequestParam("boardId") Long id){
-        return boardService.findById(id);
-        // TODO: 페치조인으로 쿼리 최적화 => 계층형 구조
+    public ApiResult<List<BoardDetailDto>> findBoardWithAll(@RequestParam("boardId") Long id){
+        return success(boardService.findBoardWithAll(id));
+        // TODO: 쿼리 최적화 => 계층형 구조
     }
 
-    @ApiOperation(notes = "내가 쓴 글 조회", value = "내가 쓴 글을 모두 조회한다.")
+    @ApiOperation(value = "내가 쓴 글 조회", notes = "내가 쓴 글을 모두 조회한다.")
     @GetMapping("/getAllWrites")
-    public List<Board> getMyAllWrite(HttpServletRequest req){
+    public ApiResult<List<BoardDetailDto>> getMyAllWrite(HttpServletRequest req){
         Long memId = authService.getUserIdFromJWT(req);
-        return boardService.findMyBoards(memId);
+        return success(boardService.findMyBoards(memId));
     }
 }

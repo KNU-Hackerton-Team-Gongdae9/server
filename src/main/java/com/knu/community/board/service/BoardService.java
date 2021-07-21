@@ -2,6 +2,7 @@ package com.knu.community.board.service;
 
 import com.knu.community.board.domain.Board;
 import com.knu.community.board.domain.Category;
+import com.knu.community.board.dto.BoardDetailDto;
 import com.knu.community.board.dto.BoardForm;
 import com.knu.community.board.repository.BoardRepository;
 import com.knu.community.error.NotFoundException;
@@ -83,10 +84,15 @@ public class BoardService {
     }
 
 
-    public List<Board> findMyBoards(Long memId) {
+    public List<BoardDetailDto> findMyBoards(Long memId) {
         return boardRepository.findMyBoards(memId).orElseThrow(()->
             new NotFoundException("작성한 게시물이 없습니다.")
         );
+    }
+
+    public List<BoardDetailDto> findBoardWithAll(Long id) {
+        return boardRepository.findBoardWithAll(id).orElseThrow(()->
+            new NotFoundException("게시물이 존재하지 않습니다."));
     }
 }
 

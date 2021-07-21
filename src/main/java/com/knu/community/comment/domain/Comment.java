@@ -1,6 +1,7 @@
 package com.knu.community.comment.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.knu.community.base.BaseTimeEntity;
 import com.knu.community.board.domain.Board;
 import com.knu.community.comment.dto.CommentForm;
@@ -38,12 +39,14 @@ public class Comment extends BaseTimeEntity {
 
     private String author;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="board_id")
+    @JsonIgnore
     private Board board;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="member_id")
+    @JsonIgnore
     private Member member;
 
 

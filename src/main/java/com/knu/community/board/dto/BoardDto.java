@@ -29,4 +29,3 @@ public class BoardDto {
         this.dateTime=board.getCreatedDate();
     }
 }
-

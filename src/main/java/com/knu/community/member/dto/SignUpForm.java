@@ -5,12 +5,13 @@ import com.knu.community.member.domain.Major;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
-import lombok.Builder;
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
 @Data
+@AllArgsConstructor @NoArgsConstructor
 public class SignUpForm {
 
     @NotNull
@@ -40,5 +41,4 @@ public class SignUpForm {
     @NotNull
     private Major major;
 
-    public SignUpForm(){}
 }

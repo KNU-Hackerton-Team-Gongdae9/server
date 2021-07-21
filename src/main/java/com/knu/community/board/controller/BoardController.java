@@ -66,7 +66,7 @@ public class BoardController {
         catch(Exception e){
             throw new NotFoundException(e.getMessage());
         }
-    }
+
 
     @GetMapping("/findCategory")
     public ApiResult<List<BoardDto>> findBoardByCategory(@RequestParam("category") Category category){
@@ -92,6 +92,9 @@ public class BoardController {
         }
     }
 
-
-
+    @GetMapping("/findBoardWithAll")
+    public Board findBoardWithAll(@RequestParam("boardId") Long id){
+        return boardService.findById(id);
+        // TODO: 페치조인으로 쿼리 최적화 필요..
+    }
 }

@@ -1,6 +1,7 @@
 package com.knu.community.reply.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.knu.community.base.BaseTimeEntity;
 import com.knu.community.comment.domain.Comment;
 import java.time.LocalDateTime;
@@ -38,6 +39,7 @@ public class Reply extends BaseTimeEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="comment_id")
+    @JsonIgnore
     private Comment comment;
 
     public void setComment(Comment comment){

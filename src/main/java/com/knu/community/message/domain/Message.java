@@ -1,5 +1,6 @@
 package com.knu.community.message.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.knu.community.base.BaseTimeEntity;
 import com.knu.community.member.domain.Member;
 import lombok.AllArgsConstructor;
@@ -26,10 +27,12 @@ public class Message extends BaseTimeEntity {
 
     @ManyToOne
     @JoinColumn
+    @JsonIgnore
     private Member sender;
 
     @ManyToOne
     @JoinColumn
+    @JsonIgnore
     private Member receiver;
 
     public void setSender(Member sender) {

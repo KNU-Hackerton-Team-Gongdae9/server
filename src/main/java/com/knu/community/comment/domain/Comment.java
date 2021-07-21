@@ -4,6 +4,7 @@ package com.knu.community.comment.domain;
 import com.knu.community.base.BaseTimeEntity;
 import com.knu.community.board.domain.Board;
 import com.knu.community.comment.dto.CommentForm;
+import com.knu.community.member.domain.Member;
 import com.knu.community.reply.domain.Reply;
 import java.time.LocalDateTime;
 
@@ -41,17 +42,20 @@ public class Comment extends BaseTimeEntity {
     @JoinColumn(name="board_id")
     private Board board;
 
-    @OneToMany(mappedBy = "comment")
-    private List<WriteComment> commenterList = new ArrayList<>();
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="member_id")
+    private Member member;
+
 
     @OneToMany(mappedBy = "comment")
     private List<Reply> replyList = new ArrayList<>();
 
 
-    public Comment(Board board,CommentForm commentForm){
+    public Comment(Member member,Board board,CommentForm commentForm){
         this.author=commentForm.getAuthor();
         this.content=commentForm.getContent();
         setBoard(board);
+        setMember(member);
     }
 
     public void edit(CommentForm commentForm){
@@ -68,6 +72,14 @@ public class Comment extends BaseTimeEntity {
             this.board.getCommentList().remove(this);
         }
         this.board=board;
+        board.getCommentList().add(this);
+    }
+
+    public void setMember(Member member){
+        if(this.member!=null){
+            this.member.getCommentList().remove(this);
+        }
+        this.member=member;
         board.getCommentList().add(this);
     }
 }

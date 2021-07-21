@@ -9,18 +9,10 @@ import com.knu.community.board.dto.BoardForm;
 import com.knu.community.board.service.BoardService;
 import com.knu.community.email.service.AuthService;
 import com.knu.community.error.NotFoundException;
-import com.knu.community.member.repository.MemberRepository;
 import com.knu.community.util.ApiUtils.ApiResult;
-<<<<<<< HEAD
 import io.swagger.annotations.ApiOperation;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
-import javassist.NotFoundException;
-=======
-import java.util.List;
-import java.util.stream.Collectors;
->>>>>>> 1d57ac5d4882303ee863e7a1f50e624a9c88be1e
 import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -50,7 +42,7 @@ public class BoardController {
 
     @GetMapping("/{boardId}")
     public ApiResult<BoardDto> findOneBoard(@PathVariable("boardId") Long boardId){
-        return success(new BoardDto(boardService.findById(boardId));
+        return success(new BoardDto(boardService.findById(boardId)));
     }
 
     @GetMapping("/findTitle")

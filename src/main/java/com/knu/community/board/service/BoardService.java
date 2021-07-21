@@ -78,4 +78,10 @@ public class BoardService {
 
         return board;
     }
+
+    public List<Board> findMyBoards(Long memId) {
+        return boardRepository.findMyBoards(memId).orElseThrow(()->
+            new NotFoundException("작성한 게시물이 없습니다.")
+        );
+    }
 }

@@ -1,6 +1,7 @@
 package com.knu.community.member.controller;
 
 
+import com.knu.community.board.domain.Board;
 import com.knu.community.email.service.AuthService;
 import com.knu.community.email.util.CookieUtil;
 import com.knu.community.email.util.JwtUtil;
@@ -10,9 +11,12 @@ import com.knu.community.member.domain.Member;
 import com.knu.community.member.dto.RequestVerifyEmail;
 import com.knu.community.member.dto.SignInForm;
 import com.knu.community.member.dto.SignUpForm;
+import com.knu.community.member.repository.MemberRepository;
 import com.knu.community.util.ApiUtils;
 import com.knu.community.util.ApiUtils.ApiResult;
 import io.swagger.annotations.ApiOperation;
+import java.util.List;
+import java.util.Optional;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -31,6 +35,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("user")
 public class MemberController {
 
+    private final MemberRepository memberRepository;
     private final AuthService authService;
     private final JwtUtil jwtUtil;
     private final CookieUtil cookieUtil;
@@ -72,7 +77,6 @@ public class MemberController {
         authService.verifyEmail(key);
         return ApiUtils.success("성공적으로 인증메일을 확인했습니다.");
     }
-
 
     @ApiOperation(notes = "회원 고유 ID 반환", value="현재 로그인한 유저의 고유 ID 를 반환하는 메소드")
     @GetMapping("/getUserId")

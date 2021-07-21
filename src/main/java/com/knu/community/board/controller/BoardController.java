@@ -6,7 +6,9 @@ import com.knu.community.board.dto.BoardForm;
 import com.knu.community.board.service.BoardService;
 import com.knu.community.email.service.AuthService;
 import com.knu.community.member.repository.MemberRepository;
+import io.swagger.annotations.ApiOperation;
 import java.util.List;
+import java.util.Optional;
 import javassist.NotFoundException;
 import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -60,5 +62,12 @@ public class BoardController {
     public Board findBoardWithAll(@RequestParam("boardId") Long id){
         return boardService.findById(id);
         // TODO: 페치조인으로 쿼리 최적화 필요..
+    }
+
+    @ApiOperation(notes = "내가 쓴 글 조회", value = "내가 쓴 글을 모두 조회한다.")
+    @GetMapping("/getAllWrites")
+    public List<Board> getMyAllWrite(HttpServletRequest req){
+        Long memId = authService.getUserIdFromJWT(req);
+        return boardService.findMyBoards(memId);
     }
 }

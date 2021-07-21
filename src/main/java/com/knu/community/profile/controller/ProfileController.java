@@ -1,6 +1,7 @@
 package com.knu.community.profile.controller;
 
 import com.knu.community.profile.domain.Profile;
+import com.knu.community.profile.dto.ProfileDto;
 import com.knu.community.profile.dto.ProfileForm;
 import com.knu.community.profile.service.ChangeProfileService;
 import com.knu.community.profile.service.CreateProfileService;
@@ -23,8 +24,8 @@ public class ProfileController {
     private final SearchProfileService searchProfileService;
 
     @GetMapping("/user/{nickname}")
-    public ApiUtils.ApiResult<Profile> getProfile(@PathVariable("nickname") String nickName){
-        return ApiUtils.success(searchProfileService.searchProfileBy(nickName));
+    public ApiUtils.ApiResult<ProfileDto> getProfile(@PathVariable("nickname") String nickName){
+        return ApiUtils.success(new ProfileDto(searchProfileService.searchProfileBy(nickName)));
     }
 
     @PostMapping("/user/{member_id}")
@@ -40,7 +41,7 @@ public class ProfileController {
     }
 
     @PutMapping("/uploadProfileImage/user/{member_id}")
-    public ApiUtils.ApiResult<Profile> changeProfileImage(@RequestParam MultipartFile file, @PathVariable("member_id") Long memberId) throws IOException {
-        return ApiUtils.success(changeProfileService.changeProfileImage(memberId, file));
+    public ApiUtils.ApiResult<ProfileDto> changeProfileImage(@RequestParam MultipartFile file, @PathVariable("member_id") Long memberId) throws IOException {
+        return ApiUtils.success(new ProfileDto(changeProfileService.changeProfileImage(memberId, file)));
     }
 }

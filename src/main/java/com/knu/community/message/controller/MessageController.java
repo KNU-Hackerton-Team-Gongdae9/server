@@ -1,6 +1,7 @@
 package com.knu.community.message.controller;
 
 import com.knu.community.message.domain.Message;
+import com.knu.community.message.dto.MessageDto;
 import com.knu.community.message.dto.MessageForm;
 import com.knu.community.message.service.SearchMessageService;
 import com.knu.community.message.service.SendMessageService;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,13 +22,13 @@ public class MessageController {
     private final SendMessageService sendMessageService;
 
     @GetMapping("/received/user/{user_id}")
-    public ApiUtils.ApiResult<List<Message>> getReceived(@PathVariable("user_id") Long userId){
-        return ApiUtils.success(searchMessageService.searchReceived(userId));
+    public ApiUtils.ApiResult<List<MessageDto>> getReceived(@PathVariable("user_id") Long userId){
+        return ApiUtils.success(searchMessageService.searchReceived(userId).stream().map(MessageDto::new).collect(Collectors.toList()));
     }
 
     @GetMapping("/sent/user/{user_id}")
-    public ApiUtils.ApiResult<List<Message>> getSent(@PathVariable("user_id") Long userId){
-        return ApiUtils.success(searchMessageService.searchSent(userId));
+    public ApiUtils.ApiResult<List<MessageDto>> getSent(@PathVariable("user_id") Long userId){
+        return ApiUtils.success(searchMessageService.searchSent(userId).stream().map(MessageDto::new).collect(Collectors.toList()));
     }
 
     @PostMapping("/from/{sender_id}/to/{receiver_nickname}")

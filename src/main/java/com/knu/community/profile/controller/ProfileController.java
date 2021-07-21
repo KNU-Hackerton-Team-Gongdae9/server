@@ -19,9 +19,9 @@ public class ProfileController {
     private final ChangeProfileService changeProfileService;
     private final SearchProfileService searchProfileService;
 
-    @GetMapping("/user/{member_id}")
-    public ApiUtils.ApiResult<Profile> getProfile(@PathVariable("member_id") Long memberId){
-        return ApiUtils.success(searchProfileService.searchProfile(memberId));
+    @GetMapping("/user/{nickname}")
+    public ApiUtils.ApiResult<Profile> getProfile(@PathVariable("nickname") String nickName){
+        return ApiUtils.success(searchProfileService.searchProfileBy(nickName));
     }
 
     @PostMapping("/user/{member_id}")

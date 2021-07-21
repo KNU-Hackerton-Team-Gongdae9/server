@@ -29,9 +29,9 @@ public class MessageController {
         return ApiUtils.success(searchMessageService.searchSent(userId));
     }
 
-    @PostMapping("/from/{sender_id}/to/{receiver_id}")
-    public ApiUtils.ApiResult<String> send(@Valid @RequestBody MessageForm messageForm, @PathVariable("sender_id") Long senderId, @PathVariable("receiver_id") Long receiverId){
-        sendMessageService.send(senderId, receiverId, messageForm);
+    @PostMapping("/from/{sender_id}/to/{receiver_nickname}")
+    public ApiUtils.ApiResult<String> send(@Valid @RequestBody MessageForm messageForm, @PathVariable("sender_id") Long senderId, @PathVariable("receiver_nickname") String receiverNickname){
+        sendMessageService.send(senderId, receiverNickname, messageForm);
         return ApiUtils.success("성공");
     }
 }

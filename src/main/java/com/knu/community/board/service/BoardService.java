@@ -63,6 +63,14 @@ public class BoardService {
         return byCategory.get();
     }
 
+    @Transactional(readOnly = true)
+    public List<Board> findByContent(String content){
+        Optional<List<Board>> byContent = boardRepository.findByContent(content);
+        if(byContent.get().size()==0) throw new NotFoundException("Content :"+content+" 해당하는 Board를 찾을 수 없습니다");
+
+        return byContent.get();
+    }
+
     @Transactional
     public void deleteBoard(Long boardId){
         boardRepository.deleteById(boardId);

@@ -9,7 +9,7 @@ public class BoardForm {
 
     private Category category;
 
-    private String Title;
+    private String title;
 
     private String content;
 

@@ -13,6 +13,8 @@ import com.knu.community.util.ApiUtils.ApiResult;
 import io.swagger.annotations.ApiOperation;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.List;
+import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -60,6 +62,12 @@ public class BoardController {
     @GetMapping("/findAuthor")
     public ApiResult<List<BoardDto>>  findBoardByAuthor(@RequestParam("author") String author){
         return success(boardService.findByAuthor(author).stream()
+            .map(BoardDto::new).collect(Collectors.toList()));
+    }
+
+    @GetMapping("/findContent")
+    public ApiResult<List<BoardDto>>  findBoardByContent(@RequestParam("content") String content){
+        return success(boardService.findByContent(content).stream()
             .map(BoardDto::new).collect(Collectors.toList()));
     }
 

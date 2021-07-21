@@ -2,6 +2,7 @@ package com.knu.community.reply.controller;
 
 import com.knu.community.email.service.AuthService;
 import com.knu.community.reply.domain.Reply;
+import com.knu.community.reply.dto.ReplyDto;
 import com.knu.community.reply.dto.ReplyForm;
 import com.knu.community.reply.service.DeleteReplyService;
 import com.knu.community.reply.service.EditReplyService;
@@ -9,6 +10,7 @@ import com.knu.community.reply.service.GetReplyService;
 import com.knu.community.reply.service.WriteReplyService;
 import com.knu.community.util.ApiUtils;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -44,8 +46,8 @@ public class ReplyController {
     }
 
     @GetMapping("/getMyReplies")
-    public List<Reply> getMyReplies(HttpServletRequest req){
+    public ApiUtils.ApiResult<List<ReplyDto>> getMyReplies(HttpServletRequest req){
         Long memId = authService.getUserIdFromJWT(req);
-        return getReplyService.findMyReplies(memId);
+        return ApiUtils.success(getReplyService.findMyReplies(memId).stream().map(ReplyDto::new).collect(Collectors.toList()));
     }
 }

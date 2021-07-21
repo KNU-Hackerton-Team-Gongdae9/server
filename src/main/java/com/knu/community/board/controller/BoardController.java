@@ -74,7 +74,7 @@ public class BoardController {
     @GetMapping("/findBoardWithAll")
     public Board findBoardWithAll(@RequestParam("boardId") Long id){
         return boardService.findById(id);
-        // TODO: 페치조인으로 쿼리 최적화 필요..
+        // TODO: 페치조인으로 쿼리 최적화 => 계층형 구조
     }
 
     @ApiOperation(notes = "내가 쓴 글 조회", value = "내가 쓴 글을 모두 조회한다.")

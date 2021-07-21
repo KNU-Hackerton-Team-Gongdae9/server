@@ -81,7 +81,7 @@ public class AuthService {
         UUID uuid = UUID.randomUUID();
         String content = "다음의 링크를 통해 인증을 완료해주세요. \n" + VERIFICATION_LINK+uuid.toString() ;
         redisUtil.setDataExpire(uuid.toString(),member.getEmail(), 60 * 30L);
-        emailService.sendMail(member.getEmail(), "[경북대학교 컴퓨터학부 APP] 회원가입 인증메일입니다.", content);
+        //emailService.sendMail(member.getEmail(), "[경북대학교 컴퓨터학부 APP] 회원가입 인증메일입니다.", content);
         log.info(content);
     }
 

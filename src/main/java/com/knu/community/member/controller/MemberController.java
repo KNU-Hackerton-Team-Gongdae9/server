@@ -6,6 +6,7 @@ import com.knu.community.email.util.JwtUtil;
 import com.knu.community.email.util.RedisUtil;
 import com.knu.community.error.NotFoundException;
 import com.knu.community.member.domain.Member;
+import com.knu.community.member.dto.LoginSuccessDto;
 import com.knu.community.member.dto.RequestVerifyEmail;
 import com.knu.community.member.dto.SignInForm;
 import com.knu.community.member.dto.SignUpForm;
@@ -17,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,6 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("user")
+@Slf4j
 public class MemberController {
 
     private final AuthService authService;
@@ -37,7 +40,7 @@ public class MemberController {
 
     @ApiOperation(value = "로그인", notes = "회원정보를 입력해 로그인을 수행하고 JWT 토큰 발급")
     @PostMapping("/signIn")
-    public ApiResult<String> signIn(@Valid @RequestBody SignInForm signInForm, HttpServletResponse res) throws Exception {
+    public ApiResult<LoginSuccessDto> signIn(@Valid @RequestBody SignInForm signInForm, HttpServletResponse res) throws Exception {
         final Member member = authService.loginUser(signInForm);
         final String token = jwtUtil.generateToken(member.getEmail());
         final String refreshJwt = jwtUtil.generateRefreshToken(member);
@@ -46,7 +49,9 @@ public class MemberController {
         redisUtil.setDataExpire(refreshJwt, member.getEmail(), JwtUtil.REFRESH_TOKEN_VALIDATION_SECOND);
         res.addCookie(accessToken);
         res.addCookie(refreshToken);
-        return ApiUtils.success("로그인에 성공했습니다. \n발급받은 토큰 : " + token);
+        LoginSuccessDto lsd = new LoginSuccessDto(member.getId(), member.getNickname());
+        log.info("발급받은 토큰 : " + token);
+        return ApiUtils.success(lsd);
     }
 
     @ApiOperation(value = "회원가입", notes = "회원가입 메소드")

@@ -37,7 +37,7 @@ public class Reply extends BaseTimeEntity {
     private String author;
 
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="comment_id")
     @JsonIgnore
     private Comment comment;

@@ -48,4 +48,10 @@ public class CommentController {
         return success(commentService.findMyComments(memId).stream().map(CommentDto::new)
         .collect(Collectors.toList()));
     }
+
+    @ApiOperation(value = "특정 게시판의 댓글 조회", notes = "게시판 아이디를 통해 특정 게시판의 댓글을 조회한다.")
+    @GetMapping("/findContentsByBoardId")
+    public ApiResult<List<CommentDto>> findContentsByBoardId(Long boardId){
+        return success(commentService.findContentsByBoardId(boardId));
+    }
 }

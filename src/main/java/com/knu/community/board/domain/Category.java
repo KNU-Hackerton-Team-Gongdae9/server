@@ -1,5 +1,5 @@
 package com.knu.community.board.domain;
 
 public enum Category {
-    FREE,QNA
+    FREE,QNA,TEAM
 }

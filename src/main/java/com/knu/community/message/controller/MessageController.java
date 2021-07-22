@@ -31,6 +31,11 @@ public class MessageController {
         return ApiUtils.success(searchMessageService.searchSent(userId).stream().map(MessageDto::new).collect(Collectors.toList()));
     }
 
+    @GetMapping("/user/{my_id}/sender/{other_nickname}")
+    public ApiUtils.ApiResult<List<MessageDto>> getChatList(@PathVariable("my_id") Long myId, @PathVariable("other_nickname") String otherNickname){
+        return ApiUtils.success(searchMessageService.searchChatList(myId, otherNickname).stream().map(MessageDto::new).collect(Collectors.toList()));
+    }
+
     @PostMapping("/from/{sender_id}/to/{receiver_nickname}")
     public ApiUtils.ApiResult<String> send(@Valid @RequestBody MessageForm messageForm, @PathVariable("sender_id") Long senderId, @PathVariable("receiver_nickname") String receiverNickname){
         sendMessageService.send(senderId, receiverNickname, messageForm);

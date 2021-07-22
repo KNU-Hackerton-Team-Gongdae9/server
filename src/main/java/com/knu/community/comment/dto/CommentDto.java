@@ -21,7 +21,7 @@ public class CommentDto {
     private LocalDateTime time;
 
     public CommentDto(Comment comment){
-        this.commentId = getCommentId();
+        this.commentId = comment.getId();
         this.author=comment.getAuthor();
         this.content=comment.getContent();
         this.replyList = comment.getReplyList();

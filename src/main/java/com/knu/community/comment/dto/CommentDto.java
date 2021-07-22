@@ -3,8 +3,10 @@ package com.knu.community.comment.dto;
 
 import com.knu.community.comment.domain.Comment;
 import com.knu.community.reply.domain.Reply;
+import com.knu.community.reply.dto.ReplyDto;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 import lombok.Getter;
 
 @Getter
@@ -16,7 +18,7 @@ public class CommentDto {
 
     private String content;
 
-    private List<Reply> replyList;
+    private List<ReplyDto> replyDtoList;
 
     private LocalDateTime time;
 
@@ -24,7 +26,7 @@ public class CommentDto {
         this.commentId = comment.getId();
         this.author=comment.getAuthor();
         this.content=comment.getContent();
-        this.replyList = comment.getReplyList();
+        this.replyDtoList = comment.getReplyList().stream().map(ReplyDto::new).collect(Collectors.toList());
         this.time=comment.getLastModifiedDate();
     }
 }

@@ -67,7 +67,7 @@ public class CommentService {
     }
 
     public List<CommentDto> findContentsByBoardId(Long boardId) {
-        List<Comment> comments = commentRepository.findContentsByBoardId(boardId).orElseThrow(() ->
+        List<Comment> comments = commentRepository.findByBoard_Id(boardId).orElseThrow(() ->
             new NotFoundException("게시물이 존재하지 않습니다.")
         );
         return comments.stream().map(CommentDto::new).collect(Collectors.toList());

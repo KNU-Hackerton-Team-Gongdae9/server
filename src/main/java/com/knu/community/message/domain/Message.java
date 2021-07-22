@@ -23,8 +23,6 @@ public class Message extends BaseTimeEntity {
 
     private String content;
 
-    private Integer read;
-
     @ManyToOne
     @JoinColumn
     @JsonIgnore
@@ -54,7 +52,6 @@ public class Message extends BaseTimeEntity {
     public static Message createInstance(Member sender, Member receiver, String content){
         Message message =  Message.builder()
                 .content(content)
-                .read(1)
                 .build();
         message.setSender(sender);
         message.setReceiver(receiver);

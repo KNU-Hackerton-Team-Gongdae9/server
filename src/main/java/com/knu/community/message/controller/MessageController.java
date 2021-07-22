@@ -21,6 +21,11 @@ public class MessageController {
     private final SearchMessageService searchMessageService;
     private final SendMessageService sendMessageService;
 
+    @GetMapping("/user/{user_id}")
+    public ApiUtils.ApiResult<List<MessageDto>> getMessages(@PathVariable("user_id") Long userId){
+        return ApiUtils.success(searchMessageService.search(userId).stream().map(MessageDto::new).collect(Collectors.toList()));
+    }
+
     @GetMapping("/received/user/{user_id}")
     public ApiUtils.ApiResult<List<MessageDto>> getReceived(@PathVariable("user_id") Long userId){
         return ApiUtils.success(searchMessageService.searchReceived(userId).stream().map(MessageDto::new).collect(Collectors.toList()));

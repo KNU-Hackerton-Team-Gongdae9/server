@@ -24,6 +24,7 @@ public class BoardDto {
     public BoardDto(){}
 
     public BoardDto(Board board){
+        this.boardId= board.getId();
         this.category=board.getCategory();
         this.title=board.getTitle();
         this.content=board.getContent();

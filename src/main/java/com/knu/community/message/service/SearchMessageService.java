@@ -14,6 +14,10 @@ import java.util.List;
 public class SearchMessageService {
     private final MessageRepository msgRepository;
 
+    public List<Message> search(Long userId){
+        return msgRepository.findAllByReceiver_IdOrSender_Id(userId, userId).orElseThrow(() -> new NotFoundException("메시지를 찾을 수 없습니다."));
+    }
+
     public List<Message> searchReceived(Long userId) {
         return msgRepository.findAllByReceiver_Id(userId).orElseThrow(() -> new NotFoundException("메시지를 찾을 수 없습니다."));
     }

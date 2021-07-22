@@ -3,6 +3,7 @@ package com.knu.community.comment.service;
 import com.knu.community.board.domain.Board;
 import com.knu.community.board.repository.BoardRepository;
 import com.knu.community.comment.domain.Comment;
+import com.knu.community.comment.dto.CommentDto;
 import com.knu.community.comment.dto.CommentForm;
 import com.knu.community.comment.repository.CommentRepository;
 import com.knu.community.error.NotFoundException;
@@ -10,6 +11,7 @@ import com.knu.community.member.domain.Member;
 import com.knu.community.member.repository.MemberRepository;
 import com.knu.community.reply.repository.ReplyRepository;
 import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -64,4 +66,10 @@ public class CommentService {
         );
     }
 
+    public List<CommentDto> findContentsByBoardId(Long boardId) {
+        List<Comment> comments = commentRepository.findContentsByBoardId(boardId).orElseThrow(() ->
+            new NotFoundException("게시물이 존재하지 않습니다.")
+        );
+        return comments.stream().map(CommentDto::new).collect(Collectors.toList());
+    }
 }

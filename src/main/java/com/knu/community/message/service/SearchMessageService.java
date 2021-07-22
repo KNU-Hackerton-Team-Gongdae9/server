@@ -6,6 +6,7 @@ import com.knu.community.message.repository.MessageRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -19,5 +20,14 @@ public class SearchMessageService {
 
     public List<Message> searchSent(Long userId) {
         return msgRepository.findAllBySender_Id(userId).orElseThrow(() -> new NotFoundException("메시지를 찾을 수 없습니다."));
+    }
+
+    public List<Message> searchChatList(Long myId, String otherNickname) {
+        List<Message> result = new ArrayList<>();
+
+        result.addAll(msgRepository.findAllByReceiver_IdAndSender_Nickname(myId, otherNickname).orElseThrow(() -> new NotFoundException("메시지를 찾을 수 없습니다. ")));
+        result.addAll(msgRepository.findAllByReceiver_NicknameAndSender_Id(otherNickname, myId).orElseThrow(() -> new NotFoundException("메시지를 찾을 수 없습니다. ")));
+
+        return result;
     }
 }

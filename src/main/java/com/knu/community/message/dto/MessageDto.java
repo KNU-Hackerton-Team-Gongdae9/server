@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 public class MessageDto {
     private String nickname;
     private String content;
-    private Boolean read;
+    private int read;
     private LocalDateTime time;
 
     public MessageDto(Message message){

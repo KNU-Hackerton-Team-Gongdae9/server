@@ -28,15 +28,13 @@ public class ReplyController {
     private final AuthService authService;
 
     @PostMapping("/comment/{comment_id}")
-    public ApiUtils.ApiResult<String> writeReply(@Valid @RequestBody ReplyForm replyForm, @PathVariable("comment_id") Long commentId){
-        writeReplyService.write(commentId, replyForm);
-        return ApiUtils.success("성공했습니다.");
+    public ApiUtils.ApiResult<ReplyDto> writeReply(@Valid @RequestBody ReplyForm replyForm, @PathVariable("comment_id") Long commentId){
+        return ApiUtils.success(new ReplyDto(writeReplyService.write(commentId, replyForm)));
     }
 
     @PutMapping("/{reply_id}")
-    public ApiUtils.ApiResult<String> editReply(@Valid @RequestBody ReplyForm replyForm, @PathVariable("reply_id") Long replyId){
-        editReplyService.edit(replyId, replyForm);
-        return ApiUtils.success("성공했습니다.");
+    public ApiUtils.ApiResult<ReplyDto> editReply(@Valid @RequestBody ReplyForm replyForm, @PathVariable("reply_id") Long replyId){
+        return ApiUtils.success(new ReplyDto(editReplyService.edit(replyId, replyForm)));
     }
 
     @DeleteMapping("/{reply_id}")

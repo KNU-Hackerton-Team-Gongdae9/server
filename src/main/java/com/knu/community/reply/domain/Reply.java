@@ -50,9 +50,10 @@ public class Reply extends BaseTimeEntity {
         comment.getReplyList().add(this);
     }
 
-    public void edit(ReplyForm replyForm){
+    public Reply edit(ReplyForm replyForm){
         content = changedInfo(content, replyForm.getContent());
         author = changedInfo(author, replyForm.getAuthor());
+        return this;
     }
 
     private String changedInfo(String original, String changed){

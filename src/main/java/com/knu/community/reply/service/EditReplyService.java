@@ -15,8 +15,8 @@ public class EditReplyService {
     private final ReplyRepository replyRepository;
 
     @Transactional
-    public void edit(Long replyId, ReplyForm replyForm) {
+    public Reply edit(Long replyId, ReplyForm replyForm) {
         Reply reply = replyRepository.findById(replyId).orElseThrow(NotFoundException::new);
-        reply.edit(replyForm);
+        return reply.edit(replyForm);
     }
 }

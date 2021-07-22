@@ -5,6 +5,7 @@ import com.knu.community.comment.domain.Comment;
 import com.knu.community.comment.repository.CommentRepository;
 import com.knu.community.error.NotFoundException;
 import com.knu.community.reply.domain.Reply;
+import com.knu.community.reply.dto.ReplyDto;
 import com.knu.community.reply.dto.ReplyForm;
 import com.knu.community.reply.repository.ReplyRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,8 +19,8 @@ public class WriteReplyService {
     private final ReplyRepository replyRepository;
 
     @Transactional
-    public void write(Long commentId, ReplyForm replyForm) {
+    public Reply write(Long commentId, ReplyForm replyForm) {
         Comment comment = commentRepository.findById(commentId).orElseThrow(()->new NotFoundException(("Comment를 찾을 수 없습니다")));
-        replyRepository.save(Reply.createInstance(comment, replyForm));
+        return replyRepository.save(Reply.createInstance(comment, replyForm));
     }
 }

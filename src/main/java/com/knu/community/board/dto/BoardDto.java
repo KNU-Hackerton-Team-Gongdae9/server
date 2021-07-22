@@ -9,6 +9,8 @@ import lombok.Getter;
 @Getter
 public class BoardDto {
 
+    private Long boardId;
+
     private Category category;
 
     private String title;

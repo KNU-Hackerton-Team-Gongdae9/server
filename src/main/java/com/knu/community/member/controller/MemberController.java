@@ -6,10 +6,12 @@ import com.knu.community.email.util.JwtUtil;
 import com.knu.community.email.util.RedisUtil;
 import com.knu.community.error.NotFoundException;
 import com.knu.community.member.domain.Member;
+import com.knu.community.member.domain.MemberDto;
 import com.knu.community.member.dto.LoginSuccessDto;
 import com.knu.community.member.dto.RequestVerifyEmail;
 import com.knu.community.member.dto.SignInForm;
 import com.knu.community.member.dto.SignUpForm;
+import com.knu.community.member.repository.MemberRepository;
 import com.knu.community.util.ApiUtils;
 import com.knu.community.util.ApiUtils.ApiResult;
 import io.swagger.annotations.ApiOperation;
@@ -34,6 +36,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class MemberController {
 
     private final AuthService authService;
+    private final MemberRepository memberRepository;
     private final JwtUtil jwtUtil;
     private final CookieUtil cookieUtil;
     private final RedisUtil redisUtil;
@@ -81,5 +84,12 @@ public class MemberController {
     @GetMapping("/getUserId")
     public Long getUserEmail(HttpServletRequest req) throws NotFoundException {
         return authService.getUserIdFromJWT(req);
+    }
+
+    @ApiOperation(value = "회원 E-mail과 Nickname 반환", notes="현재 로그인한 유저의 이메일과 닉네임을 반환하는 메소드")
+    @GetMapping("/getUserEmailNickname")
+    public ApiResult<MemberDto> getEmailNickname(HttpServletRequest req){
+        Long userId = authService.getUserIdFromJWT(req);
+        return ApiUtils.success(new MemberDto(memberRepository.findById(userId).orElseThrow(()-> new NotFoundException ("존재하지 않는 회원입니다."))));
     }
 }

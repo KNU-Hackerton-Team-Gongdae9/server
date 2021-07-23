@@ -10,12 +10,12 @@ public class MessageDto {
     private String nickname;
     private String otherNickname;
     private String content;
-    private LocalDateTime time;
+    private String time;
 
     public MessageDto(Message message){
         this.nickname = message.getReceiver().getNickname();
         this.otherNickname = message.getSender().getNickname();
         this.content = message.getContent();
-        this.time = message.getCreatedDate();
+        this.time = message.getCreatedDate().format(DateTimeFormatter.ofPattern("yy-MM-dd HH:mm"));
     }
 }

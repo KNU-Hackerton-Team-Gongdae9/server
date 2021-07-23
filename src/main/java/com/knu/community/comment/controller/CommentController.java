@@ -17,9 +17,11 @@ import java.util.stream.Collectors;
 import javassist.NotFoundException;
 import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -53,5 +55,18 @@ public class CommentController {
     @GetMapping("/findContentsByBoardId")
     public ApiResult<List<CommentDto>> findContentsByBoardId(Long boardId){
         return success(commentService.findContentsByBoardId(boardId));
+    }
+
+    @ApiOperation(value = "댓글 수정", notes = "댓글 아이디를 통해 특정 댓글을 수정한다.")
+    @PutMapping("/editComment/{commentId}")
+    public ApiResult<Boolean> editComment(@PathVariable("commentId") Long commentId, @RequestBody CommentForm commentForm){
+        return success(commentService.updateComment(commentId, commentForm));
+    }
+
+    @ApiOperation(value = "댓글 삭제", notes = "댓글 아이디를 통해 특정 댓글을 삭제한다.")
+    @DeleteMapping("/deleteComment/{commentId}")
+    public ApiResult<String> deleteComment(@PathVariable("commentId")Long commentId){
+        commentService.deleteComment(commentId);
+        return success( "삭제된 글입니다.");
     }
 }

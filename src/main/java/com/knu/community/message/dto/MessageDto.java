@@ -1,6 +1,7 @@
 package com.knu.community.message.dto;
 
 import com.knu.community.message.domain.Message;
+import java.time.format.DateTimeFormatter;
 import lombok.Getter;
 
 import java.time.LocalDateTime;

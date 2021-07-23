@@ -36,7 +36,7 @@ public class AuthService {
             throw new IllegalArgumentException("경북대학교 이메일(knu.ac.kr)만 가입이 가능합니다.");
         }
         if(isDuplicateMember(signUpForm.getEmail())){
-            throw new IllegalStateException("이미 가입된 회원입니다.");
+            throw new IllegalStateException("이미 가입된 이메일 회원입니다.");
         }
         if(isDuplicateNickName(signUpForm.getNickname())){
             throw new IllegalStateException("닉네임 중복되었습니다. 다른 닉네임으로 해주세요.");

@@ -26,11 +26,11 @@ public class SearchMessageService {
         return msgRepository.findAllBySender_Id(userId).orElseThrow(() -> new NotFoundException("메시지를 찾을 수 없습니다."));
     }
 
-    public List<Message> searchChatList(Long myId, String otherNickname) {
+    public List<Message> searchChatList(String myNickname, String otherNickname) {
         List<Message> result = new ArrayList<>();
 
-        result.addAll(msgRepository.findAllByReceiver_IdAndSender_Nickname(myId, otherNickname).orElseThrow(() -> new NotFoundException("메시지를 찾을 수 없습니다. ")));
-        result.addAll(msgRepository.findAllByReceiver_NicknameAndSender_Id(otherNickname, myId).orElseThrow(() -> new NotFoundException("메시지를 찾을 수 없습니다. ")));
+        result.addAll(msgRepository.findAllByReceiver_NicknameAndSender_Nickname(myNickname, otherNickname).orElseThrow(() -> new NotFoundException("메시지를 찾을 수 없습니다. ")));
+        result.addAll(msgRepository.findAllByReceiver_NicknameAndSender_Nickname(otherNickname, myNickname).orElseThrow(() -> new NotFoundException("메시지를 찾을 수 없습니다. ")));
 
         return result;
     }

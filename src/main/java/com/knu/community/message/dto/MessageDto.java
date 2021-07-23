@@ -8,11 +8,13 @@ import java.time.LocalDateTime;
 @Getter
 public class MessageDto {
     private String nickname;
+    private String otherNickname;
     private String content;
     private LocalDateTime time;
 
     public MessageDto(Message message){
-        this.nickname = message.getSender().getNickname();
+        this.nickname = message.getReceiver().getNickname();
+        this.otherNickname = message.getSender().getNickname();
         this.content = message.getContent();
         this.time = message.getCreatedDate();
     }

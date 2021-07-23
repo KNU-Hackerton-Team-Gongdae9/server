@@ -36,10 +36,8 @@ public class Profile extends BaseTimeEntity {
 
     public void update(ProfileForm profileForm){
         language = changedInfo(language, profileForm.getLanguage());
-        interest = changedInfo(interest, profileForm.getInterest());
         githubLink = changedInfo(githubLink, profileForm.getGithubLink());
         blogLink = changedInfo(blogLink, profileForm.getBlogLink());
-        imageLink = changedInfo(imageLink, profileForm.getImageLink());
     }
 
     private String changedInfo(String original, String changed){
@@ -53,10 +51,10 @@ public class Profile extends BaseTimeEntity {
 
     public static Profile createProfile(Member member, ProfileForm profileForm){
         Profile profile =  Profile.builder().language(profileForm.getLanguage())
-                .interest(profileForm.getInterest())
+                .interest("")
                 .githubLink(profileForm.getGithubLink())
                 .blogLink(profileForm.getBlogLink())
-                .imageLink(profileForm.getImageLink())
+                .imageLink("")
                 .build();
         profile.setMember(member);
         return profile;

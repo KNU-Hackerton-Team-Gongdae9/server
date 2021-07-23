@@ -10,6 +10,7 @@ import javax.persistence.*;
 
 import com.knu.community.message.domain.Message;
 import com.knu.community.profile.domain.Profile;
+import com.knu.community.profile.dto.ProfileForm;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -63,4 +64,14 @@ public class Member extends BaseTimeEntity {
     }
 
     public void setProfile(Profile profile) { this.profile = profile; }
+
+    public void updateInfo(ProfileForm profileForm) {
+        this.grade = profileForm.getGrade();
+        this.nickname = changedInfo(this.nickname, profileForm.getNickname());
+        this.email = changedInfo(this.email, profileForm.getEmail());
+    }
+
+    private String changedInfo(String original, String changed){
+        return (changed == null || changed.equals("")) ? original : changed;
+    }
 }
